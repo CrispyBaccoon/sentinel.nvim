@@ -118,6 +118,12 @@ local fn = {
     dir = 'incline.nvim',
     opts = false,
   },
+  indent = Util.create_bootstrap {
+    name = 'indent',
+    url = 'lukas-reineke/indent-blankline.nvim',
+    dir = 'indent-blankline.nvim',
+    opts = false,
+  }
 }
 
 ---@param name string

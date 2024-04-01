@@ -12,7 +12,7 @@ local default_modules = {
       'dash',
       'commands',
       'trouble', 'todo_comments',
-      'incline',
+      'incline', 'indent',
     },
   },
 }

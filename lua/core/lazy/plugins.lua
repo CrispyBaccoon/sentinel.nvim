@@ -43,6 +43,8 @@ return {
     cond = function() return core.lib.options:enabled 'trouble' end },
   { 'b0o/incline.nvim',
     cond = function() return core.lib.options:enabled 'incline' end },
+  { 'lukas-reineke/indent-blankline.nvim',
+    cond = function() return core.lib.options:enabled 'indent' end },
   { 'nvim-tree/nvim-web-devicons',
     cond = function() return core.config.ui.devicons end },
   { import = core.modules.core.lazy.opts.module },
