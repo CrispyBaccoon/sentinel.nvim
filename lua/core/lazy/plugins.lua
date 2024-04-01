@@ -31,6 +31,7 @@ return {
       'rafamadriz/friendly-snippets',
     },
   },
+  { 'nvimtools/none-ls.nvim' },
   { 'echasnovski/mini.nvim' },
   { 'lewis6991/gitsigns.nvim' },
   { 'folke/which-key.nvim',

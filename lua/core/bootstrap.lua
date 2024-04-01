@@ -66,6 +66,11 @@ local fn = {
     name = 'luasnip',
     url = 'L3MON4D3/LuaSnip',
   },
+  null = Util.create_bootstrap {
+    name = 'null-ls',
+    url = 'nvimtools/none-ls.nvim',
+    dir = 'none-ls.nvim',
+  },
   mini = Util.create_bootstrap {
     name = 'mini',
     url = 'echasnovski/mini.nvim',
