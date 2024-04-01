@@ -1,6 +1,16 @@
 local Util = require 'core.utils'
 
+---@class core.types.global
+---@field handle core.types.global.handle
+---@alias core.types.global.handle table<string, core.types.handle[][]>
 core.handle = core.handle or {}
+
+---@class core.types.handle
+---@field event string|'custom'
+---@field fn AutoCmdCallback
+---@field priority? integer
+---@field type? string
+---@field desc? string
 
 ---@diagnostic disable duplicate-doc-alias
 
@@ -26,10 +36,12 @@ return {
       pattern = ev ~= event and ev or nil,
       ---@type AutoCmdCallback
       callback = function(opts)
-        for i, fn_t in pairs(core.handle[ev]) do
-          Util.log('autocmds.callback', string.format('autocmds:%s:%d', ev, i))
-          for _, fn in ipairs(fn_t) do
-            fn(opts)
+        -- loop over priorities of current event
+        for priority_i, priority_t in pairs(core.handle[ev]) do
+          Util.log('autocmds.callback', string.format('autocmds:%s:%d', ev, priority_i))
+          -- loop over handles of current priority
+          for _, handle in ipairs(priority_t) do
+            handle.fn(opts)
           end
         end
       end,
@@ -45,7 +57,7 @@ return {
   ---   fn = function() Util.log 'hi' end,
   --- }
   --- ```
-  ---@param props { event: string|'custom', fn: AutoCmdCallback, priority?: integer, type?: string }
+  ---@param props core.types.handle
   create = function(props)
     if not props.event or not props.fn then
       return
@@ -66,12 +78,9 @@ return {
       require 'core.load.handle'.setup (event, ev)
     end
 
-    local current_handle = core.handle[ev][priority]
-    if not current_handle then
-      core.handle[ev][priority] = {}
-      current_handle = core.handle[ev][priority]
-    end
-    core.handle[ev][priority][#current_handle+1] = props.fn
+    core.handle[ev][priority] = core.handle[ev][priority] or {}
+    local next = #core.handle[ev][priority] + 1
+    core.handle[ev][priority][next] = props
   end,
   --- trigger a custom event
   start = function(ev)
