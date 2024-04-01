@@ -8,6 +8,8 @@ return {
           wrap = true, -- wrap the lines in the ui
           -- The border to use for the UI window. Accepts same border values as |nvim_open_win()|.
           border = 'none',
+          -- The backdrop opacity. 0 is fully opaque, 100 is fully transparent.
+          backdrop = 100,
           icons = {
             cmd = "! ",
             config = core.lib.icons.syntax.constructor,
