@@ -4,7 +4,7 @@ local default_modules = {
   core = {
     init = {
       'base', 'options', 'hl', 'ui', 'highlights', 'keymaps',
-      'lazy', 'lualine', 'treesitter', 'lsp',
+      'lazy', 'lualine', 'treesitter', 'lsp', 'null',
     },
     buf = { 'luasnip', 'cmp', },
     ui = {
