@@ -11,6 +11,7 @@ return {
   setup = function()
     core.lib.autocmd.create {
       event = 'ColorScheme', priority = GC.priority.handle.colorscheme.transparency,
+      desc = 'load transparency hls',
       fn = function(_)
         -- reload highlights after colorscheme is switched/reloaded with changes
         require 'core.plugin.transparency'.create()

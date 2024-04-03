@@ -18,6 +18,7 @@ vim.api.nvim_create_autocmd('TermOpen', {
 
 require 'core.load.handle'.create {
   event = 'TermOpen', priority = 5,
+  desc = 'create quit keymap',
   fn = function(ev)
     vim.keymap.set({ 't' }, '<esc><esc>', function()
       return [[<C-\><C-n>]]
@@ -43,6 +44,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- autocmd BufWritePre * call s:Mkdir()
 core.lib.autocmd.create {
   event = 'BufWritePre',
+  desc = 'create path to file',
   fn = function()
     local dir = vim.fn.expand('<afile>:p:h')
 

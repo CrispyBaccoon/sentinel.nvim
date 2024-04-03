@@ -6,6 +6,7 @@ return {
       core.lib.autocmd.create {
         event = 'ColorScheme',
         priority = GC.priority.handle.colorscheme.theme,
+        desc = 'load ui theme',
         fn = function(_)
           local ok, module = SR_L 'core.ui.theme'
           if not ok then

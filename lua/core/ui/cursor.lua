@@ -15,12 +15,14 @@ return {
     require 'core.ui.cursor'.setcursor 'normal'
     core.lib.autocmd.create {
       event = 'InsertEnter', priority = 2,
+      desc = 'set insert mode cursor hl',
       fn = function(ev)
         require 'core.ui.cursor'.setcursor (ev.buf, 'insert')
       end
     }
     core.lib.autocmd.create {
       event = 'InsertLeave', priority = 2,
+      desc = 'set normal mode cursor hl',
       fn = function(ev)
         require 'core.ui.cursor'.setcursor (ev.buf, 'normal')
       end

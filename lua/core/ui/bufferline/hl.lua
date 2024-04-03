@@ -3,6 +3,7 @@ local M = {}
 M.setup_highlights = function()
   core.lib.autocmd.create {
     event = 'ColorScheme', priority = GC.priority.handle.colorscheme.plugin,
+    desc = 'apply bufferline hls',
     fn = function(_)
       require 'core.ui.bufferline.hl'.apply_highlights()
     end

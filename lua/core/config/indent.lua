@@ -22,6 +22,7 @@ return {
 
     core.lib.autocmd.create {
       event = 'ColorScheme', priority = GC.priority.handle.colorscheme.plugin,
+      desc = 'apply indent hls',
       fn = function(_)
         require 'core.config.indent'.apply_hl()
       end,

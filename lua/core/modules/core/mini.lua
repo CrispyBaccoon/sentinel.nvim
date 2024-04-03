@@ -182,6 +182,7 @@ return {
 
             core.lib.autocmd.create {
               event = "WinEnter",
+              desc = 'highlight trailspace',
               fn = function()
                 require 'mini.trailspace'.highlight()
               end,

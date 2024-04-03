@@ -79,6 +79,7 @@ M.setup = function(opts)
   if opts.theme and type(opts.theme) == 'string' then
     core.lib.autocmd.create {
       event = 'ColorScheme', priority = GC.priority.handle.colorscheme.plugin,
+      desc = 'load telescope hls',
       fn = function(_)
         use_theme(core.modules.core.telescope.opts.theme)
       end

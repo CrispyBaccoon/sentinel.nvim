@@ -9,6 +9,7 @@ function parts.load_modules(_)
     for _, spec in pairs(modules) do
       core.lib.autocmd.create {
         event = 'custom', type = 'lazycore', priority = spec.priority or nil,
+        desc = ('lazycore:%s:%s'):format(main_mod, spec.name),
         fn = function()
           parts.lazy_load(main_mod, spec.name)
         end
