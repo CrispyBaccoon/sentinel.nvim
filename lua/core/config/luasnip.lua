@@ -19,9 +19,9 @@ return {
 
     -- load snippets from snippets directory
     local snippets_opts = {
-        paths = ('%s/%s'):format(core.path.root, 'friendly-snippets'),
+        paths = ('%s/%s'):format(core.path.lazy, 'friendly-snippets'),
     }
-    if type(opts.import_languages) == 'table' then
+    if opts.import_languages and type(opts.import_languages) == 'table' then
       snippets_opts.include = opts.import_languages
     end
     require 'luasnip.loaders.from_vscode'.lazy_load(snippets_opts)
