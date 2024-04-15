@@ -64,7 +64,8 @@
       docs_up = "<C-f>"
     },
     menu_style = "evergreen",
-    snippet_engine = "luasnip"
+    snippet_engine = "luasnip",
+    use_emoji_source = true
   }
 }
 ```
@@ -299,6 +300,22 @@
   }
 }
 ```
+### `indent` module
+```lua
+{ "indent",
+  event = "BufAdd",
+  opts = {
+    config = {
+      indent = {
+        highlight = { "@ibl.indent.char.1", "@ibl.indent.char.2", "@ibl.indent.char.3", "@ibl.indent.char.4", "@ibl.indent.char.5", "@ibl.indent.char.6", "@ibl.indent.char.7", "@ibl.indent.char.8", "@ibl.indent.char.9", "@ibl.indent.char.10", "@ibl.indent.char.11", "@ibl.indent.char.12" }
+      },
+      scope = {
+        enabled = false
+      }
+    }
+  }
+}
+```
 ### `keymaps` module
 ```lua
 { "keymaps",
@@ -310,12 +327,13 @@
       buffers = { { "normal", "<leader>x", ":Close<cr>", "close buffer" } },
       copy_paste = { { "normal", "<c-v>", '"+p', "paste from system clipboard" }, { "visual", "<c-c>", '"+y', "copy to system clipboard" } },
       indent = { { "visual", "<", "<gv", "decrease indention" }, { "visual", ">", ">gv", "increase indention" } },
-      qf_list = { { "normal", "<c-n>", ":cnext<cr>", "goto next item in qf list" }, { "normal", "<c-b>", ":cprev<cr>", "goto prev item in qf list" } },
-      show_ui = { { "normal", "<leader>sc", <function 1>, "show cheatsheet" }, { "normal", "<leader>sh", <function 2>, "show core status" }, { "normal", "<leader>sll", <function 3>, "show lazy" } },
-      tabs = { { "normal", "<space><tab>]", <function 4>, "next tab" }, { "normal", "<space><tab>[", <function 5>, "prev tab" }, { "normal", "<space><tab>n", ":$tabedit<CR>", "open new tab" }, { "normal", "<space><tab>d", ":tabclose<CR>", "close current tab" }, { "normal", "<space><tab>x", ":tabclose<CR>", "close current tab" } },
-      toggle_ui = { { "normal", ",tb", <function 6>, "toggle transparent background" } },
+      qf_list = { { "normal", "<c-n>", ":cnext<cr>", "goto next item in qf list" }, { "normal", "<c-b>", ":cprev<cr>", "goto prev item in qf list" }, { "normal", "<leader>q", <function 1>, "load qf list items" }, { "normal", "<leader>sq", <function 2>, "open qf list" } },
+      show_ui = { { "normal", "<leader>sc", <function 3>, "show cheatsheet" }, { "normal", "<leader>sh", <function 4>, "show core status" }, { "normal", "<leader>sll", <function 5>, "show lazy" } },
+      tabs = { { "normal", "<space><tab>]", <function 6>, "next tab" }, { "normal", "<space><tab>[", <function 7>, "prev tab" }, { "normal", "<space><tab>n", ":$tabedit<CR>", "open new tab" }, { "normal", "<space><tab>d", ":tabclose<CR>", "close current tab" }, { "normal", "<space><tab>x", ":tabclose<CR>", "close current tab" }, { "normal", "<space><tab><", <function 8>, "move tab to the left" }, { "normal", "<space><tab>>", <function 9>, "move tab to the right" } },
+      toggle_ui = { { "normal", ",tb", <function 10>, "toggle transparent background" } },
       windows = { { "normal", "<C-\\>", ":vs<CR>:wincmd l<CR>", "split file vertically" } }
-    }
+    },
+    qf_loaders = {}
   }
 }
 ```
@@ -325,6 +343,7 @@
   opts = {
     config = {
       ui = {
+        backdrop = 100,
         border = "none",
         icons = {
           cmd = "! ",
@@ -379,7 +398,7 @@
       only_current_line = true
     },
     mappings = {
-      format = ".fl",
+      format = ",fl",
       goto_declaration = "gD",
       goto_definition = "gd",
       goto_implementation = "gi",
@@ -390,7 +409,6 @@
       open_float = "L",
       peek_definition = "<space>gd",
       rename = "gr",
-      set_qflist = "<space>q",
       show_code_action = "gl",
       show_lsp_info = "<space>si",
       show_signature = "<C-k>",
@@ -400,7 +418,6 @@
     signature = {
       enabled = true,
       window = {
-        border = "none",
         height = 20,
         width = 64
       }
@@ -603,6 +620,19 @@
   }
 }
 ```
+### `null` module
+```lua
+{ "null",
+  opts = {
+    config = {
+      sources = {}
+    },
+    mappings = {
+      format = ",fn"
+    }
+  }
+}
+```
 ### `options` module
 ```lua
 {
@@ -754,6 +784,40 @@
     },
     statusline = {
       enabled = true
+    },
+    terminal = {
+      behavior = {
+        auto_insert = true,
+        autoclose_on_quit = {
+          confirm = true,
+          enabled = false
+        },
+        close_on_exit = true
+      },
+      enabled = true,
+      mappings = {
+        open_float = "<leader>tt",
+        open_horizontal = "<leader>th",
+        open_vertical = "<leader>tv"
+      },
+      terminals = {
+        list = {}
+      },
+      ui = {
+        float = {
+          height = 0.64,
+          relative = "editor",
+          width = 0.64
+        },
+        horizontal = {
+          location = "rightbelow",
+          split_ratio = 0.3
+        },
+        vertical = {
+          location = "rightbelow",
+          split_ratio = 0.5
+        }
+      }
     }
   }
 }
