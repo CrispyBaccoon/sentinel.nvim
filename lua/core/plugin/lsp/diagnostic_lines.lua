@@ -162,7 +162,7 @@ function M.show(namespace, bufnr, diagnostics, opts)
     bufnr = { bufnr, 'n' },
     diagnostics = {
       diagnostics,
-      vim.tbl_islist,
+      (vim.islist or vim.tbl_islist),
       'a list of diagnostics',
     },
     opts = { opts, 't', true },
