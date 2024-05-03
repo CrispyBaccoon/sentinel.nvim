@@ -57,21 +57,21 @@ return {
       { name = 'buffer',  max_item_count = 5 },
     }
 
-    keymaps.insert[opts.mappings.docs_down] = { cmp.mapping.scroll_docs(-4), '', group = 'cmp' }
-    keymaps.insert[opts.mappings.docs_up] = { cmp.mapping.scroll_docs(4), '', group = 'cmp' }
-    keymaps.insert[opts.mappings.complete] = { cmp.mapping.complete(), '', group = 'cmp' }
-    keymaps.insert[opts.mappings.close] = cmp.mapping.abort()
-    vim.keymap.set('c', opts.mappings.close, cmp.mapping.close(), { silent = true, noremap = true })
+    keymaps.insert[opts.mappings.docs_down] = { function() cmp.scroll_docs(-4) end, '', group = 'cmp' }
+    keymaps.insert[opts.mappings.docs_up] = { function() cmp.scroll_docs(4) end, '', group = 'cmp' }
+    keymaps.insert[opts.mappings.complete] = { function() cmp.complete() end, '', group = 'cmp' }
+    keymaps.insert[opts.mappings.close] = { function() cmp.abort() end, '', group = 'cmp' }
+    vim.keymap.set('c', opts.mappings.close, function() cmp.close() end, { silent = true, noremap = true })
 
     if opts.completion_style == 'tab' then
-      keymaps.insert['<Tab>'] = { cmp.mapping.confirm({ select = true }), '', group = 'cmp' }
-      keymaps.insert['<Down>'] = { cmp.mapping.select_next_item(), '', group = 'cmp' }
-      keymaps.insert['<Up>'] = { cmp.mapping.select_prev_item(), '', group = 'cmp' }
+      keymaps.insert['<Tab>'] = { function() cmp.confirm({ select = true }) end, '', group = 'cmp' }
+      keymaps.insert['<Down>'] = { function() cmp.select_next_item() end, '', group = 'cmp' }
+      keymaps.insert['<Up>'] = { function() cmp.select_prev_item() end, '', group = 'cmp' }
     end
     if opts.completion_style == 'enter' then
-      keymaps.insert['<CR>'] = { cmp.mapping.confirm({ select = true }), '', group = 'cmp' }
-      keymaps.insert['<Tab>'] = { cmp.mapping.select_next_item(), '', group = 'cmp' }
-      keymaps.insert['<S-Tab>'] = { cmp.mapping.select_prev_item(), '', group = 'cmp' }
+      keymaps.insert['<CR>'] = { function() cmp.confirm({ select = true }) end, '', group = 'cmp' }
+      keymaps.insert['<Tab>'] = { function() cmp.select_next_item() end, '', group = 'cmp' }
+      keymaps.insert['<S-Tab>'] = { function() cmp.select_prev_item() end, '', group = 'cmp' }
     end
 
     require 'core.config.cmp'.add_sources()
