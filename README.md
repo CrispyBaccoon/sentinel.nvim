@@ -16,6 +16,7 @@ chaivim uses [lazy.nvim](https://github.com/folke/lazy.nvim) to manage plugins.
 
 - :telescope: [telescope](https://github.com/nvim-telescope/telescope.nvim) - a highly extendable fuzzy finder.
 - :evergreen_tree: [treesitter](https://github.com/nvim-treesitter/nvim-treesitter) - treesitter configurations and abstraction layer for neovim.
+- :pencil: [none-ls](https://github.com/nvimtools/none-ls.nvim) - abstraction layer for lsp diagnostics, code actions, and formatters.
 - :computer: [keymaps](https://github.com/comfysage/keymaps.nvim) - a keymap manager for neovim.
 - :airplane: [lualine](https://github.com/nvim-lualine/lualine.nvim) - a blazing fast and easy to configure neovim statusline plugin.
 - :pencil: [cmp](https://github.com/hrsh7th/nvim-cmp) - a completion plugin for neovim.
@@ -26,6 +27,7 @@ chaivim uses [lazy.nvim](https://github.com/folke/lazy.nvim) to manage plugins.
 - :pushpin: [todo-comments](https://github.com/folke/todo-comments.nvim) - highlight, list and search todo comments in your projects.
 - :construction: [trouble](https://github.com/folke/trouble.nvim) - a diagnostics manager.
 - :balloon: [incline](https://github.com/b0o/incline.nvim) - floating statuslines for neovim.
+- :straight_ruler: [indent-blankline](https://github.com/lukas-reineke/indent-blankline.nvim) - indent guides for neovim.
 
 ## :lock: requirements
 
