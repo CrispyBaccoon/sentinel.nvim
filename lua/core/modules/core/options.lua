@@ -10,6 +10,11 @@ return {
       treesitter_folds = false,
       load_plugins = { },
       cmdheight = 0,
+      cursorstyle = {
+        normal = 'block',
+        insert = { 'bar', 25 },
+        replace = { 'underscore', 20 },
+      },
       clipboard = 'selection',
     },
   },

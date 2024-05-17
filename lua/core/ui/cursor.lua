@@ -7,7 +7,6 @@ return {
   end,
   setup = function()
     vim.opt.cursorline = true
-    vim.opt.guicursor = 'n-v-c-sm:block-NCursor,i-ci-ve:ver25-ICursor,r-cr-o:hor20-RCursor'
     local hls = require 'core.ui.cursor'.create()
     if not hls or not hls.cursor then return end
     core.lib.hl.apply(hls.cursor)

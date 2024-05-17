@@ -1,5 +1,23 @@
 local M = {}
 
+local default_cursor_style = 'block'
+
+local function get_cursor_style_value(style)
+  if type(style) == 'string' and style == 'block' then
+    return 'block'
+  end
+
+  if #style ~= 2 then return default_cursor_style end
+
+  if type(style[1]) ~= 'string' or type(style[2]) ~= 'number' then return default_cursor_style end
+
+  local styles = {
+    bar = 'ver',
+    underscore = 'hor',
+  }
+  return ('%s%s'):format(styles[style[1]], style[2])
+end
+
 ---@class OptionsConfig
 ---@field cursorline boolean
 ---@field number boolean|'relative'
@@ -9,6 +27,7 @@ local M = {}
 ---@field treesitter_folds boolean
 ---@field load_plugins string[]
 ---@field cmdheight boolean
+---@field cursorstyle table<'normal'|'insert'|'replace','string'|{[1]: string, [2]: integer}>
 ---@field clipboard 'system'|'selection'
 
 --- Setup options
@@ -23,6 +42,11 @@ function M.setup(opts)
   vim.opt.errorbells = false
   vim.opt.mouse = 'nv'
 
+  vim.opt.guicursor = ('n-v-sm:%s-NCursor,i-c-ci-ve:%s-ICursor,r-cr-o:%s-RCursor'):format(
+    get_cursor_style_value(opts.cursorstyle.normal),
+    get_cursor_style_value(opts.cursorstyle.insert),
+    get_cursor_style_value(opts.cursorstyle.replace)
+  )
   vim.opt.cursorline = opts.cursorline
   vim.opt.showmode = false
   vim.opt.showcmd = false
