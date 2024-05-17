@@ -25,7 +25,7 @@ local config_modules = {
   c = { 'git_branch', 'lsp_diagnostics' },
   x = { 'git_status', 'lsp_status' },
   y = { 'cwd' },
-  z = { 'cursor_position' },
+  z = { 'textinfo', 'cursor_position' },
 }
 
 local function parse_components(components)
