@@ -48,6 +48,7 @@ function M.setup(opts)
   vim.opt.concealcursor = 'c'
 
   vim.opt.shortmess = 'filnrxoOtTIF'
+  vim.opt.formatoptions = 'tcrqj'
 
   -- allow cursor to move paste the end of the line in visual block mode
   vim.opt.virtualedit = 'block'
