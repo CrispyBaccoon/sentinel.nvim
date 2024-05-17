@@ -9,6 +9,7 @@ local M = {}
 ---@field treesitter_folds boolean
 ---@field load_plugins string[]
 ---@field cmdheight boolean
+---@field clipboard 'system'|'selection'
 
 --- Setup options
 ---@param opts OptionsConfig
@@ -84,6 +85,13 @@ function M.setup(opts)
   vim.opt.smartcase = true
   -- substitution with preview window
   vim.opt.inccommand = 'split'
+
+  -- Clipboard
+  local clipboardstyles = {
+    system = 'unnamedplus', -- '+'
+    selection = 'unnamed', -- '*'
+  }
+  vim.opt.clipboard = clipboardstyles[opts.clipboard]
 
   -- Scrolling
   vim.opt.scrolloff = opts.scrolloff

@@ -10,6 +10,7 @@ return {
       treesitter_folds = false,
       load_plugins = { },
       cmdheight = 0,
+      clipboard = 'selection',
     },
   },
 }
