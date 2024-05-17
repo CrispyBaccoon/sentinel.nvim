@@ -123,7 +123,13 @@ local fn = {
     url = 'lukas-reineke/indent-blankline.nvim',
     dir = 'indent-blankline.nvim',
     opts = false,
-  }
+  },
+  fidget = Util.create_bootstrap {
+    name = 'fidget',
+    url = 'j-hui/fidget.nvim',
+    dir = 'fidget.nvim',
+    opts = false,
+  },
 }
 
 ---@param name string
