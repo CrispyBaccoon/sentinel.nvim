@@ -109,70 +109,65 @@ MT = function (t1, t2)
   return tnew
 end
 
----@type {}
+---@type table<string,fun(buf: integer): string>
 CUTIL = {}
 
----@param _ any
+---@param buf integer
 ---@return string|string[]
-CUTIL.PATH_DIR = function (_)
-  local _dir = vim.fn.expand('%:.:h')
-  local name
-  if _dir == '.' then
-    name = ''
-  else
-    name = _dir
-  end
+CUTIL.PATH_DIR = function (buf)
+  local path = vim.api.nvim_buf_get_name(buf)
+  local parent = vim.fs.dirname(path)
+  local dir_name = vim.fn.getcwd()..'/'
+  local name = string.gsub(parent, dir_name, '')
   return name
 end
 
 --- if in visual mode, returns number of visually selected words
----@param _ any
+---@param _ integer
 ---@return string
 CUTIL.WORD_COUNT = function (_)
   local w_count = vim.fn.wordcount()
-  local count = 0
-  if w_count['visual_words'] then
-    count = w_count['visual_words']
-  else
-    count = w_count['words']
-  end
+  local count = w_count['visual_words'] or w_count['words'] or 0
   if count == 0 then
     return ""
   end
-  return count
+  return tostring(count)
 end
 
 --- if in visual mode, returns number of visually selected lines,
 --- else return line count in file
----@param _ any
+---@param buf integer
 ---@return integer
-CUTIL.LINE_COUNT = function (_)
+CUTIL.LINE_COUNT = function (buf)
   local _vstart = vim.fn.line('v')
   local _vend = vim.fn.line('.')
 
   local diff = _vend - _vstart
   if diff == 0 then
-    return vim.api.nvim_buf_line_count(0)
+    return vim.api.nvim_buf_line_count(buf)
   end
 
-  if diff < 0 then
-    diff = -diff
-  end
-
-  return diff
+  return math.abs(diff)
 end
 
 --- return file info based on filetype
 --- default: LINE_COUNT
 --- markdown: WORD_COUNT
----@param _ any
+---@param buf integer
+---@param show_icon? boolean
 ---@return string|integer
-CUTIL.FILE_INFO = function (_)
+CUTIL.FILE_INFO = function (buf, show_icon)
   local type_info = {
-    markdown = CUTIL.WORD_COUNT,
+    markdown = { 'W', CUTIL.WORD_COUNT },
   }
-  local bufnr = vim.fn.bufnr()
-  local t = vim.filetype.match { buf = bufnr }
-  local fn = type_info[t] or CUTIL.LINE_COUNT
-  return fn()
+  local t = vim.filetype.match { buf = buf }
+  local info = type_info[t] or { 'L', CUTIL.LINE_COUNT }
+  local fn = info[2]
+  local text = fn(buf)
+  local icon = info[1]
+
+  if show_icon then
+    return ' ' .. icon .. text .. ' '
+  end
+  return text
 end
