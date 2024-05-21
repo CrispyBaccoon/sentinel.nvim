@@ -111,6 +111,9 @@ return {
           { 'normal', '<c-v>', '"+p', 'paste from system clipboard' },
           { 'visual', '<c-c>', '"+y', 'copy to system clipboard' },
         },
+        selection = {
+          { 'normal', '<M-v>', '^vg_', 'select contents of current line' },
+        },
       },
       qf_loaders = {},
     },
