@@ -2,9 +2,9 @@
 
 :tea: easily configurable neovim system with solid defaults and a cozy editor experience.
 
-![dash](images/dash.png)
+![dash](./images/asset.dash.png)
 
-![telescope__config](images/telescope__config.png)
+![telescope__config](./images/asset.telescope.png)
 
 ## :sparkles: Features
 
@@ -129,4 +129,4 @@ view example configurations for modules [here](doc/modules.md).
 
 ## :camera: screenshots
 
-![nix-config](images/nix-config.png)
+![nix-config](./images/asset.nix__config.png)
