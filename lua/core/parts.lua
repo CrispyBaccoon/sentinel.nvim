@@ -129,7 +129,7 @@ function parts.colorscheme(_)
   })
 end
 
-function parts.load_transparency()
+function parts.load_transparency(_)
   require 'core.plugin.transparency'.setup()
 end
 
