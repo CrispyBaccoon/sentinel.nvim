@@ -178,9 +178,9 @@ function M.show(namespace, bufnr, diagnostics, opts)
   end)
 
   if vopts.severity and type(vopts.severity) == 'number' then
-    diagnostics = vim.tbl_filter(function(d)
+    diagnostics = vim.iter(diagnostics):filter(function(d)
       return d.severity <= vopts.severity
-    end, diagnostics)
+    end)
   end
 
   vim.api.nvim_buf_clear_namespace(bufnr, namespace, 0, -1)
