@@ -57,10 +57,10 @@ return {
     local config = core.config.ui.theme_config
     local hl_groups = require('core.ui.theme').create(theme, config)
     Util.log('core.ui', ('applying "%s" hl groups'):format 'main')
-    hl_groups = vim.tbl_map(function(v)
+    hl_groups = vim.iter(hl_groups):map(function(v)
       v.default = true
       return v
-    end, hl_groups)
+    end)
     core.lib.hl.apply(hl_groups)
   end,
 }
