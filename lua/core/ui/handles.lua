@@ -18,12 +18,12 @@ function model:init()
   ---@type table<string, { expand: boolean, items: core.types.handle[]}[]>
   local items = {}
   for event, event_t in pairs(_items) do
-    items[event] = vim.tbl_map(function(t)
+    items[event] = vim.iter(event_t):map(function(t)
       return {
         expand = false,
         items = t,
       }
-    end, event_t)
+    end):totable()
   end
 
   self.data.items = items
