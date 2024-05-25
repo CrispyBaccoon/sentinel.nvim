@@ -47,6 +47,7 @@ SR = function(module_name, starts_with_only)
   end
 
   -- Handle impatient.nvim automatically.
+  ---@diagnostic disable-next-line: undefined-field
   local luacache = (_G.__luacache or {}).cache
 
   for pack, _ in pairs(package.loaded) do
@@ -156,6 +157,7 @@ end
 ---@param buf integer
 ---@param show_icon? boolean
 ---@return string|integer
+---@diagnostic disable-next-line: redundant-parameter
 CUTIL.FILE_INFO = function (buf, show_icon)
   local type_info = {
     markdown = { 'W', CUTIL.WORD_COUNT },
