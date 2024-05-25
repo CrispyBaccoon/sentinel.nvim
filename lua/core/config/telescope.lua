@@ -60,8 +60,8 @@ end
 
 ---@class CoreTelescopeOpts
 ---@field config TelescopeConfig
----@field use_fzf boolean
----@field theme 'main'|'minimal'
+---@field use_fzf? boolean
+---@field theme? 'main'|'minimal'
 ---@field mappings { [string]: string }
 
 ---@param opts CoreTelescopeOpts
