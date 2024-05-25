@@ -29,23 +29,16 @@ local config_modules = {
 }
 
 local function parse_components(components)
-  local _modules = {}
-  for _, component in ipairs(components) do
+  return vim.iter(components):map(function(component)
     local ok, mod = SR(('core.ui.statusline.modules.%s'):format(component))
     if ok then
       ---@diagnostic disable-next-line: redefined-local
       local ok, str = pcall(mod)
       if ok then
-        _modules[#_modules + 1] = str
+        return str
       end
     end
-  end
-  return vim.tbl_map(function(item)
-    if not item then
-      return ''
-    end
-    return item
-  end, _modules)
+  end):totable()
 end
 
 M.parse = function()
