@@ -21,6 +21,7 @@ return {
         textobjects = {},
         indent = { enable = true },
         ensure_installed = {}, -- configure with opts.ensure_installed
+        modules = {},
       },
       ensure_installed = {},
     },
