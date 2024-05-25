@@ -1,5 +1,4 @@
 require 'core.load'
-require 'core.plugin.globals'
 
 local Util = require 'core.utils'
 local parts = require 'core.parts'
