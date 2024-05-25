@@ -378,7 +378,7 @@ end
 function Model:init() end
 
 ---@class core.types.ui.model
----@field view fun(self: core.types.ui.model)
+---@field view fun(self: core.types.ui.model): string[]
 function Model:view() end
 
 ---@class core.types.ui.model
