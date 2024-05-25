@@ -1,5 +1,3 @@
-local Util = require 'core.utils'
-
 local api = vim.api
 
 local model = require 'core.ui.internal.model'({
