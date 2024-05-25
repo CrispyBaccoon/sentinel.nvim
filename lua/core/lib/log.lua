@@ -9,9 +9,11 @@ local log_levels = {
   info = vim.log.levels.INFO,
   warn = vim.log.levels.WARN,
   error = vim.log.levels.ERROR,
+  [vim.log.levels.DEBUG] = 'debug',
+  [vim.log.levels.INFO] = 'info',
+  [vim.log.levels.WARN] = 'warn',
+  [vim.log.levels.ERROR] = 'error',
 }
-
-vim.tbl_add_reverse_lookup(log_levels)
 
 --- Log Data type
 ---@class core.types.log.data
