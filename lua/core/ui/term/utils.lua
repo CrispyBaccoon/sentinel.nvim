@@ -55,17 +55,13 @@ end
 ---@param terminals core.types.ui.term.terminal[]
 ---@return core.types.ui.term.terminal[]
 util.verify_terminals = function(terminals)
-  terminals = vim.tbl_filter(function(term)
+  return vim.iter(terminals):filter(function(term)
     if not term.buf then return false end
     return vim.api.nvim_buf_is_valid(term.buf)
-  end, terminals)
-
-  terminals = vim.tbl_map(function(term)
-    term.open = vim.api.nvim_win_is_valid(term.win)
-    return term
-  end, terminals)
-
-  return terminals
+  end):map(function(term)
+      term.open = vim.api.nvim_win_is_valid(term.win)
+      return term
+    end):totable()
 end
 
 return util

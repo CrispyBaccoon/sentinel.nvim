@@ -38,9 +38,9 @@ M.set_behavior = function(behavior)
         local open_terms =
           require('core.ui.term.terminal').list_active_terms 'win'
 
-        local non_terms = vim.tbl_filter(function(win)
+        local non_terms = vim.iter(api.nvim_list_wins()):filter(function(win)
           return not vim.tbl_contains(open_terms, win)
-        end, api.nvim_list_wins())
+        end)
 
         if not vim.tbl_isempty(non_terms) then
           return

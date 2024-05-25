@@ -20,20 +20,18 @@ end
 ---@return core.types.ui.term.terminal[]
 local function get_type(type, list)
   list = list or terminals
-  return vim.tbl_filter(function(t)
+  return vim.iter(list):filter(function(t)
     return t.type == type
-  end, list)
+  end):totable()
 end
 
 local function get_still_open()
   if not terminals then
     return {}
   end
-  return #terminals > 0
-      and vim.tbl_filter(function(t)
-        return t.open == true
-      end, terminals)
-    or {}
+  return vim.iter(terminals):filter(function(t)
+    return t.open == true
+  end):totable()
 end
 
 local function get_last_still_open()
@@ -46,9 +44,9 @@ end
 
 local function get_term(key, value)
   -- assumed to be unique, will only return 1 term regardless
-  return vim.tbl_filter(function(t)
+  return vim.iter(terminals):filter(function(t)
     return t[key] == value
-  end, terminals)[1]
+  end):next()
 end
 
 local create_term_window = function(type)
@@ -180,9 +178,9 @@ end
 chaiterm.list_active_terms = function(property)
   local terms = get_still_open()
   if property then
-    return vim.tbl_map(function(t)
+    return vim.iter(terms):map(function(t)
       return t[property]
-    end, terms)
+    end):totable()
   end
   return terms
 end
