@@ -28,16 +28,30 @@ local config_modules = {
   z = { 'textinfo', 'cursor_position' },
 }
 
-local function parse_components(components)
-  return vim.iter(components):map(function(component)
-    local ok, mod = SR(('core.ui.statusline.modules.%s'):format(component))
+local function parse_c(c, ...)
+  if type(c) == 'string' then
+    local ok, mod = SR(('core.ui.statusline.modules.%s'):format(c))
     if ok then
       ---@diagnostic disable-next-line: redefined-local
-      local ok, str = pcall(mod)
+      local ok, str = pcall(mod, ...)
       if ok then
         return str
       end
     end
+  else
+    local ok, str = pcall(c, ...)
+    if ok then
+      return str
+    end
+  end
+end
+
+local function parse_components(components)
+  return vim.iter(components):map(function(c)
+    if type(c) == 'table' then
+      return parse_c(unpack(c))
+    end
+    return parse_c(c)
   end):totable()
 end
 
