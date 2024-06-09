@@ -36,6 +36,7 @@ M.apply_highlights = function()
   local sections = {
     ['St_section_b'] = { bg = accent_bg },
     ['St_section_c'] = { fg = comment_fg, bg = core.lib.hl:get('ui', 'bg_accent') },
+    ['St_section_m'] = { fg = comment_fg, bg = core.lib.hl:get('ui', 'bg_accent') },
     ['St_section_x'] = { fg = comment_fg, bg = core.lib.hl:get('ui', 'bg_accent') },
     ['St_section_y'] = { bg = accent_bg },
   }

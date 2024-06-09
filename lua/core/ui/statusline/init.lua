@@ -23,6 +23,7 @@ local config_modules = {
   a = { 'mode' },
   b = { 'fileinfo' },
   c = { 'git_branch', 'lsp_diagnostics' },
+  m = { { 'macro', function(key) return ('recording %s ...'):format(key) end } },
   x = { 'git_status', 'lsp_status' },
   y = { 'cwd' },
   z = { 'textinfo', 'cursor_position' },
@@ -63,6 +64,7 @@ M.parse = function()
     a = parse_components(config_modules.a),
     b = parse_components(config_modules.b),
     c = parse_components(config_modules.c),
+    m = parse_components(config_modules.m),
     x = parse_components(config_modules.x),
     y = parse_components(config_modules.y),
     z = parse_components(config_modules.z),
@@ -80,6 +82,8 @@ M.parse = function()
       .. '%#St_section_b_sep#'
       .. sep_r
   modules[#modules + 1] = '%#St_section_c#' .. table.concat(_modules.c)
+  modules[#modules + 1] = '%#St_normal#' .. sep_mid
+  modules[#modules + 1] = '%#St_section_m#' .. table.concat(_modules.m)
   modules[#modules + 1] = '%#St_normal#' .. sep_mid
   modules[#modules + 1] = '%#St_section_x#' .. table.concat(_modules.x)
   modules[#modules + 1] = '%#St_section_y_sep#'
