@@ -5,6 +5,7 @@ local api = vim.api
 local default_props = {
   title = nil,
   persistent = false,
+  text_edit = false,
   size = {
     width = 90,
     height = 0.8,
@@ -24,6 +25,7 @@ Model.__index = Model
 ---@class core.types.ui.model.props
 ---@field title? string
 ---@field persistent? boolean
+---@field text_edit? boolean
 ---@field size? { width: integer|number, height: integer|number }
 
 ---@class core.types.ui.model.internal
@@ -110,6 +112,10 @@ function Model:_init()
     once = true,
   })
   self:on('CursorMoved', 'cursormove', {})
+  if self.props.text_edit then
+    self:on('TextChanged', 'text_changed', {})
+    self:on('TextChangedI', 'text_changed_insert', {})
+  end
 end
 
 ---@class core.types.ui.model
@@ -168,7 +174,7 @@ end
 ---@field mount fun(self: core.types.ui.model)
 function Model:opts()
   -- buf only options
-  api.nvim_set_option_value('modifiable', false, { buf = self.internal.buf })
+  api.nvim_set_option_value('modifiable', self.props.text_edit, { buf = self.internal.buf })
   api.nvim_set_option_value('buflisted', false, { buf = self.internal.buf })
 
   vim.bo[self.internal.buf].bufhidden = self.props.persistent and 'hide'
@@ -297,7 +303,7 @@ function Model:_view()
   local lines = self:view()
   api.nvim_set_option_value('modifiable', true, { buf = self.internal.buf })
   api.nvim_buf_set_lines(self.internal.buf, 0, -1, false, lines)
-  api.nvim_set_option_value('modifiable', false, { buf = self.internal.buf })
+  api.nvim_set_option_value('modifiable', self.props.text_edit, { buf = self.internal.buf })
 
   return 'hls'
 end
