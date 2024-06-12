@@ -32,8 +32,22 @@ return {
           { 'normal', '<space><tab>n', ':$tabedit<CR>', 'open new tab' },
           { 'normal', '<space><tab>d', ':tabclose<CR>', 'close current tab' },
           { 'normal', '<space><tab>x', ':tabclose<CR>', 'close current tab' },
-          { 'normal', '<space><tab><', function() vim.cmd [[ -tabmove ]] end, 'move tab to the left' },
-          { 'normal', '<space><tab>>', function() vim.cmd [[ +tabmove ]] end, 'move tab to the right' },
+          {
+            'normal',
+            '<space><tab><',
+            function()
+              vim.cmd [[ -tabmove ]]
+            end,
+            'move tab to the left',
+          },
+          {
+            'normal',
+            '<space><tab>>',
+            function()
+              vim.cmd [[ +tabmove ]]
+            end,
+            'move tab to the right',
+          },
         },
         windows = {
           {
@@ -50,19 +64,31 @@ return {
           -- quick fix list
           { 'normal', '<c-n>', ':cnext<cr>', 'goto next item in qf list' },
           { 'normal', '<c-b>', ':cprev<cr>', 'goto prev item in qf list' },
-          { 'normal', '<leader>q', function()
-            local items = core.lib.options:get('keymaps', 'qf_loaders')
-            vim.ui.select(vim.tbl_keys(items), {}, function(item)
-              if not item then return end
-              local fn = items[item]
-              if fn and type(fn) == 'function' then
-                fn()
-              end
-            end)
-          end, 'load qf list items' },
-          { 'normal', '<leader>sq', function()
-            core.lib.keymaps.open_qf_list()
-          end, 'open qf list'},
+          {
+            'normal',
+            '<leader>q',
+            function()
+              local items = core.lib.options:get('keymaps', 'qf_loaders')
+              vim.ui.select(vim.tbl_keys(items), {}, function(item)
+                if not item then
+                  return
+                end
+                local fn = items[item]
+                if fn and type(fn) == 'function' then
+                  fn()
+                end
+              end)
+            end,
+            'load qf list items',
+          },
+          {
+            'normal',
+            '<leader>sq',
+            function()
+              core.lib.keymaps.open_qf_list()
+            end,
+            'open qf list',
+          },
         },
         indent = {
           -- < and > indents
