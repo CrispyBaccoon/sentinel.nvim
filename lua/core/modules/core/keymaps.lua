@@ -25,6 +25,15 @@ return {
       -- special keys are imported from ui->key_labels
       special_keys = nil,
       mappings = {
+        file = {
+          { 'normal', '<c-s>', vim.cmd.update, 'save file' },
+        },
+        movement = {
+          { 'normal', 'W', 'g_', 'goto last non empty of line' },
+          { 'normal', 'B', '^', 'goto first non empty of line' },
+          { 'visual', 'W', 'g_', 'goto last non empty of line' },
+          { 'visual', 'B', '^', 'goto first non empty of line' },
+        },
         tabs = {
           -- tab switching
           { 'normal', '<space><tab>]', vim.cmd.tabnext, 'next tab' },
@@ -56,6 +65,10 @@ return {
             ':vs<CR>:wincmd l<CR>',
             'split file vertically',
           },
+          { 'normal', '<C-h>', '<C-w>h', 'switch window left' },
+          { 'normal', '<C-l>', '<C-w>l', 'switch window right' },
+          { 'normal', '<C-j>', '<C-w>j', 'switch window down' },
+          { 'normal', '<C-k>', '<C-w>k', 'switch window up' },
         },
         buffers = {
           { 'normal', '<leader>x', ':Close<cr>', 'close buffer' },
@@ -139,6 +152,14 @@ return {
         },
         selection = {
           { 'normal', '<M-v>', '^vg_', 'select contents of current line' },
+          { 'normal', '<C-d>', 'viw', 'select current word' },
+        },
+        comments = {
+          { 'gcu', 'yyp^wv$hr-', 'underline comment' },
+        },
+        fixup = {
+          { 'normal', '<S-up>', '<nop>', 'disable shift movement' },
+          { 'normal', '<S-down>', '<nop>', 'disable shift movement' },
         },
       },
       qf_loaders = {},
