@@ -155,7 +155,7 @@ return {
           { 'normal', '<C-d>', 'viw', 'select current word' },
         },
         comments = {
-          { 'gcu', 'yyp^wv$hr-', 'underline comment' },
+          { 'normal', 'gcu', 'yyp^wv$hr-', 'underline comment' },
         },
         fixup = {
           { 'normal', '<S-up>', '<nop>', 'disable shift movement' },
