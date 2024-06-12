@@ -20,7 +20,7 @@ require 'core.load.handle'.create {
   event = 'TermOpen', priority = 5,
   desc = 'create quit keymap',
   fn = function(ev)
-    vim.keymap.set({ 't' }, '<esc><esc>', function()
+    vim.keymap.set({ 't' }, '<c-x>q', function()
       return [[<C-\><C-n>]]
     end, { buffer = ev.buf, expr = true })
   end,

@@ -18,9 +18,9 @@ return {
       terminal = {
         enabled = true,
         mappings = {
-          open_float = '<leader>tt',
-          open_vertical = '<leader>tv',
-          open_horizontal = '<leader>th',
+          open_float = '<c-x>tt',
+          open_vertical = '<c-x>tv',
+          open_horizontal = '<c-x>th',
         },
         ui = {
           float = {
