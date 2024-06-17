@@ -13,6 +13,13 @@ return {
 
     Util.log('lazy.setup', 'loading plugins.')
     ---@diagnostic disable-next-line: redundant-parameter
-    require 'lazy'.setup('core.lazy.plugins', opts.config)
+    local inputs = core.config.inputs
+    local ok
+    if type(inputs) == 'string' then
+      ok, inputs = pcall(require, inputs)
+      if not ok then return end
+    end
+    core.config.inputs = inputs
+    require 'lazy'.setup(core.config.inputs, opts.config)
   end,
 }
