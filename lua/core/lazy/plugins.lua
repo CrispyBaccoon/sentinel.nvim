@@ -1,4 +1,5 @@
 return {
+  { 'comfysage/chaivim', dir = core.path.core },
   { 'comfysage/keymaps.nvim' },
   { 'comfysage/yosu.nvim' },
   { 'comfysage/base46',
