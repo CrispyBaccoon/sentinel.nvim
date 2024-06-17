@@ -51,5 +51,5 @@ return {
     cond = function() return core.lib.options:enabled 'fidget' end },
   { 'nvim-tree/nvim-web-devicons',
     cond = function() return core.config.ui.devicons end },
-  { import = core.modules.core.lazy.opts.module },
+  { import = core.config.plugins },
 }

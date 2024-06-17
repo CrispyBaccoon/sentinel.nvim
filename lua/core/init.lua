@@ -20,6 +20,7 @@ local parts = require 'core.parts'
 ---@field config_module string
 ---@field modules core.types.module.table
 ---@field inputs LazyPluginSpec[]
+---@field plugins string
 
 ---@class core.config.ui
 ---@field colorscheme string

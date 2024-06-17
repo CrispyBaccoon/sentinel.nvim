@@ -39,6 +39,7 @@ M.default_config = {
     },
   },
   inputs = 'core.lazy.plugins',
+  plugins = 'plugins',
   modules = {},
 }
 

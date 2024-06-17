@@ -35,7 +35,6 @@ return {
           },
         },
       },
-      module = 'plugins',
     },
   },
   overwrite = {
