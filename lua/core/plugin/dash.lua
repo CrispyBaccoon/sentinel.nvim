@@ -62,7 +62,7 @@ function model:init()
     self:add_mapping('n', key, '')
   end
 
-  self:add_mapping('n', 'q', 'quit')
+  self:add_mapping('n', 'q', 'exit')
   self:add_mapping('n', 'j', 'move_down')
   self:add_mapping('n', 'k', 'move_up')
 
@@ -187,17 +187,27 @@ function model:update(msg)
       )
     end,
     enter = function()
-      for i, val in ipairs(self.data.keybind_linenr) do
-        if val == vim.fn.line '.' then
-          local action = self.data.buttons[i][3]
+      local find_action = function()
+        for i, val in ipairs(self.data.keybind_linenr) do
+          if val == vim.fn.line '.' then
+            local action = self.data.buttons[i][3]
 
-          if type(action) == 'string' then
-            vim.cmd(action)
-          elseif type(action) == 'function' then
-            action()
+            if type(action) == 'string' then
+              return function()
+                vim.cmd(action)
+              end
+            elseif type(action) == 'function' then
+              return function()
+                action()
+              end
+            end
           end
         end
       end
+
+      local cb = vim.schedule_wrap(find_action())
+      self:send 'exit'
+      cb()
     end,
   }
 
