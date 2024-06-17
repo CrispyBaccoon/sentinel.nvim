@@ -43,27 +43,6 @@ function Util.add_to_path(path)
   vim.opt.rtp:prepend(path)
 end
 
----@param props { name: string|nil, path: string|nil }
-function Util.git_pull(props)
-  if not props.path then
-    Util.log('core.utils', 'no path specified in `git_pull()`')
-    return
-  end
-
-  local name = props.name or vim.fs.basename(props.path)
-
-  local obj = vim.system({
-    "git",
-    "pull",
-  }, { cwd = props.path }):wait()
-  if obj.code > 0 then
-    Util.log('core.utils', 'error while updating ' .. name .. ' at ' .. props.path ..
-      '\n\t' .. obj.stdout .. '\n\t' .. obj.stderr, 'error')
-    return
-  end
-  Util.log('core.utils', 'succesfully updated ' .. name, 'info')
-end
-
 ---@param props { name: string, url: string }
 function Util.git_clone(props)
   local modulepath = core.path[props.name]

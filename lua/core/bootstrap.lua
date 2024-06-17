@@ -163,10 +163,4 @@ return {
       _fn()
     end
   end,
-  update = function(props)
-    local _fn = _get(props, 'update')
-    if _fn then
-      _fn()
-    end
-  end,
 }
