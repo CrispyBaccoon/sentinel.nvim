@@ -15,7 +15,7 @@ return {
     vim.g.indentLine_conceallevel = 2
     vim.g.indentLine_concealcursor = "inc"
 
-    require 'core.bootstrap'.boot 'cmp'
+    require 'core.bootstrap'.boot 'nvim-cmp'
 
     local ok, cmp = SR_L 'cmp'
     if not ok then
