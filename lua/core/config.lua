@@ -38,6 +38,7 @@ M.default_config = {
       ['<Right>'] = '→',
     },
   },
+  inputs = 'core.lazy.plugins',
   modules = {},
 }
 
