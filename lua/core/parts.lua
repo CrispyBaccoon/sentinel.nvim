@@ -169,14 +169,4 @@ function parts.platform(_)
   end
 end
 
-function parts.update_core(_)
-  require 'core.bootstrap'.update 'core'
-  RELOAD 'core'
-end
-
-function parts.update_keymaps(_)
-  require 'core.bootstrap'.update 'keymaps'
-  RELOAD 'keymaps'
-end
-
 return parts
