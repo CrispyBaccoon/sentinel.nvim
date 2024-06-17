@@ -16,6 +16,12 @@ local fn = {
     dir = 'keymaps.nvim',
     opts = {},
   },
+  yosu = Util.create_bootstrap {
+    name = 'yosu',
+    url = 'comfysage/yosu.nvim',
+    dir = 'yosu.nvim',
+    opts = false,
+  },
   base46 = Util.create_bootstrap {
     name = 'base46',
     url = 'comfysage/base46',

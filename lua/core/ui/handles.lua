@@ -1,6 +1,6 @@
 local api = vim.api
 
-local model = require 'core.ui.internal.model'({
+local model = require 'yosu.model'({
   items = {},
   task_pos = {},
 }, {
@@ -27,10 +27,10 @@ function model:init()
   self.data.items = items
   self.data.task_pos = {}
 
-  api.nvim_set_hl(0, 'CoreSpecial', { link = 'Special' })
-  api.nvim_set_hl(0, 'CoreEvent', { fg = core.lib.hl:get('syntax', 'event') })
-  api.nvim_set_hl(0, 'CoreTask', { fg = core.lib.hl:get('syntax', 'fn') })
-  api.nvim_set_hl(0, 'CoreItem', { fg = core.lib.hl:get('syntax', 'field') })
+  api.nvim_set_hl(0, 'UISpecial', { link = 'Special' })
+  api.nvim_set_hl(0, 'UIEvent', { fg = core.lib.hl:get('syntax', 'event') })
+  api.nvim_set_hl(0, 'UITask', { fg = core.lib.hl:get('syntax', 'fn') })
+  api.nvim_set_hl(0, 'UIItem', { fg = core.lib.hl:get('syntax', 'field') })
 
   self:add_mapping('n', '<cr>', 'open_section')
 end

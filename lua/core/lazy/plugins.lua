@@ -1,5 +1,6 @@
 return {
   { 'comfysage/keymaps.nvim' },
+  { 'comfysage/yosu.nvim' },
   { 'comfysage/base46',
     cond = function() return core.config.ui.base46 ~= nil and core.config.ui.colorscheme == 'base46' end },
   { 'nvim-lua/plenary.nvim' },

@@ -138,6 +138,7 @@ function parts.preload(_)
 
   core.path.lazy = ('%s/%s'):format(core.path.root, 'lazy')
   require 'core.bootstrap'.boot 'keymaps'
+  require 'core.bootstrap'.boot 'yosu'
   require 'core.bootstrap'.boot 'plenary'
   require 'core.bootstrap'.boot 'telescope'
   require 'core.bootstrap'.boot 'evergarden'

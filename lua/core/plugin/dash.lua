@@ -1,6 +1,6 @@
 local api = vim.api
 
-local model = require 'core.ui.internal.model'({
+local model = require 'yosu.model'({
   header = {},
   buttons = {},
   width = 0,
@@ -55,8 +55,8 @@ function model:init()
 
   self.data.max_height = #headerAscii + 4 + (2 * #buttons) -- 4  = extra spaces i.e top/bottom
 
-  api.nvim_set_hl(0, 'CoreDashAscii', { link = 'TablineSel' })
-  api.nvim_set_hl(0, 'CoreDashButtons', { link = 'Comment' })
+  api.nvim_set_hl(0, 'UIDashAscii', { link = 'TablineSel' })
+  api.nvim_set_hl(0, 'UIDashButtons', { link = 'Comment' })
 
   for _, key in ipairs { 'h', 'l', '<left>', '<right>', '<up>', '<down>' } do
     self:add_mapping('n', key, '')
