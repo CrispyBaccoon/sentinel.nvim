@@ -68,6 +68,8 @@ function model:init()
 
   -- pressing enter on
   self:add_mapping('n', '<CR>', 'enter')
+
+  self:on('WinLeave', 'exit', {})
 end
 
 function model:view()
