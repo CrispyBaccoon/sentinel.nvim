@@ -6,6 +6,7 @@ local default_props = {
   title = nil,
   persistent = false,
   text_edit = false,
+  float = true,
   size = {
     width = 90,
     height = 0.8,
@@ -26,6 +27,7 @@ Model.__index = Model
 ---@field title? string
 ---@field persistent? boolean
 ---@field text_edit? boolean
+---@field float? boolean
 ---@field size? { width: integer|number, height: integer|number }
 
 ---@class core.types.ui.model.internal
@@ -99,6 +101,11 @@ function Model:_init()
     title_pos = self.props.title and 'center' or nil,
     border = 'rounded',
   }
+  if not self.props.float then
+    self.internal.window.config.title = nil
+    self.internal.window.config.title_pos = nil
+    self.internal.window.config.border = 'solid'
+  end
 
   self:mount()
 
@@ -130,10 +137,15 @@ function Model:layout()
   local _height = size(self.internal.window.height, self.props.size.height)
   local _width = size(self.internal.window.width, self.props.size.width)
 
-  self.internal.window.config.row =
-    math.floor((self.internal.window.height - _height) / 2)
-  self.internal.window.config.col =
-    math.floor((self.internal.window.width - _width) / 2)
+  if self.props.float then
+    self.internal.window.config.row =
+      math.floor((self.internal.window.height - _height) / 2)
+    self.internal.window.config.col =
+      math.floor((self.internal.window.width - _width) / 2)
+  else
+    self.internal.window.config.row = 0
+    self.internal.window.config.col = 0
+  end
   self.internal.window.config.width = _width
   self.internal.window.config.height = _height
 end
@@ -174,7 +186,11 @@ end
 ---@field mount fun(self: core.types.ui.model)
 function Model:opts()
   -- buf only options
-  api.nvim_set_option_value('modifiable', self.props.text_edit, { buf = self.internal.buf })
+  api.nvim_set_option_value(
+    'modifiable',
+    self.props.text_edit,
+    { buf = self.internal.buf }
+  )
   api.nvim_set_option_value('buflisted', false, { buf = self.internal.buf })
 
   vim.bo[self.internal.buf].bufhidden = self.props.persistent and 'hide'
@@ -183,9 +199,10 @@ function Model:opts()
   api.nvim_set_option_value('foldenable', false, { win = self.internal.win })
   api.nvim_set_option_value('spell', false, { win = self.internal.win })
   api.nvim_set_option_value('wrap', true, { win = self.internal.win })
+  local float_hl = self.props.float and 'NormalFloat' or 'Normal'
   api.nvim_set_option_value(
     'winhighlight',
-    'Normal:NormalFloat',
+    'Normal:'..float_hl,
     { win = self.internal.win }
   )
   api.nvim_set_option_value('colorcolumn', '', { win = self.internal.win })
