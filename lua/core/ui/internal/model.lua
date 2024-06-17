@@ -183,7 +183,7 @@ function Model:mount()
 end
 
 ---@class core.types.ui.model
----@field mount fun(self: core.types.ui.model)
+---@field opts fun(self: core.types.ui.model)
 function Model:opts()
   -- buf only options
   api.nvim_set_option_value(
