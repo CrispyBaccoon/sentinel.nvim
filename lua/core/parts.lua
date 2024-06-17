@@ -134,22 +134,30 @@ function parts.load_transparency(_)
 end
 
 function parts.load_inputs(_)
+  core.path.lazy = vim.fs.joinpath(core.path.root, 'lazy')
+
   local inputs = core.config.inputs
-  local ok
   if type(inputs) == 'string' then
-    ok, inputs = pcall(require, inputs)
-    if not ok then return end
+    local result, _inputs = pcall(require, inputs)
+    if not result then
+      Util.log('parts.load_inputs', ('could not load inputs [%s]:\n\t%s'):format(_inputs, result), 'error')
+      return
+    end
+    inputs = _inputs
   end
   core.config.inputs = inputs
-  core._inputs = parse_inputs(core.config.inputs)
+  ---@class core.types.global
+  ---@field _inputs LazyPluginSpec[]
+  core._inputs = Util.parse_inputs(core.config.inputs)
 end
 
 function parts.preload(_)
   parts.load_lib {}
 
   parts.load_inputs {}
-  core.path.lazy = ('%s/%s'):format(core.path.root, 'lazy')
+  require 'core.bootstrap'.boot 'lazy.nvim'
   require 'core.bootstrap'.boot 'keymaps'
+  require 'keymaps'.setup()
   require 'core.bootstrap'.boot 'yosu'
   require 'core.bootstrap'.boot 'plenary'
   require 'core.bootstrap'.boot 'telescope'
