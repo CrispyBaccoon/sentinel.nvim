@@ -1,35 +1,41 @@
--- adapted from @NvChad https://github.com/NvChad/ui/blob/v2.0/lua/nvchad/nvdash/init.lua
-
-local M = {}
 local api = vim.api
-local fn = vim.fn
+
+local model = require 'core.ui.internal.model'({
+  header = {},
+  buttons = {},
+  width = 0,
+  max_height = 0,
+  header_start_index = 0,
+  abc = 0,
+  keybind_linenr = {},
+  cursor_init = false,
+}, {
+  title = 'dash',
+  float = false,
+  size = {
+    width = 1,
+    height = 1,
+  },
+})
 
 ---@class DashConfig
 ---@field open_on_startup boolean
 ---@field header string[]
 ---@field buttons { [1]: string, [2]: string, [3]: string|function }[]
 
-api.nvim_create_autocmd("BufLeave", {
-  group = core.group_id,
-  callback = function()
-    if vim.bo.ft == "dash" then
-      vim.g.dash_displayed = false
-    end
-  end,
-})
-
-vim.api.nvim_set_hl(0, "DashAscii", { link = 'TablineSel' })
-vim.api.nvim_set_hl(0, "DashButtons", { link = 'Comment' })
-
----@param config DashConfig
-function M.open(config)
+function model:init()
+  ---@type DashConfig
+  local config = core.modules.core.dash.opts
   -- setup variables
-  local headerAscii = config.header
-  local emmptyLine = string.rep(" ", fn.strwidth(headerAscii[1]))
   local buttons = config.buttons
   if type(config.buttons) == 'function' then
     buttons = config.buttons()
   end
+  self.data.buttons = buttons
+
+  -- view
+  local headerAscii = config.header
+  local emmptyLine = string.rep(' ', vim.fn.strwidth(headerAscii[1]))
 
   table.insert(headerAscii, 1, emmptyLine)
   table.insert(headerAscii, 2, emmptyLine)
@@ -37,143 +43,174 @@ function M.open(config)
   headerAscii[#headerAscii + 1] = emmptyLine
   headerAscii[#headerAscii + 1] = emmptyLine
 
+  self.data.header = headerAscii
+
   local min_width = 36
   local dashWidth = #headerAscii[1] + 3
   if dashWidth < min_width then
     dashWidth = min_width
   end
 
-  local max_height = #headerAscii + 4 + (2 * #buttons) -- 4  = extra spaces i.e top/bottom
-  local get_win_height = api.nvim_win_get_height
+  self.data.width = dashWidth
 
-  -- create buffer
-  local buf = api.nvim_create_buf(false, true)
-  local win = api.nvim_get_current_win()
+  self.data.max_height = #headerAscii + 4 + (2 * #buttons) -- 4  = extra spaces i.e top/bottom
 
-  -- switch to larger win if cur win is small
-  if dashWidth + 6 > api.nvim_win_get_width(0) then
-    api.nvim_set_current_win(api.nvim_list_wins()[2])
-    win = api.nvim_get_current_win()
+  api.nvim_set_hl(0, 'CoreDashAscii', { link = 'TablineSel' })
+  api.nvim_set_hl(0, 'CoreDashButtons', { link = 'Comment' })
+
+  for _, key in ipairs { 'h', 'l', '<left>', '<right>', '<up>', '<down>' } do
+    self:add_mapping('n', key, '')
   end
 
-  api.nvim_win_set_buf(win, buf)
+  self:add_mapping('n', 'q', 'quit')
+  self:add_mapping('n', 'j', 'move_down')
+  self:add_mapping('n', 'k', 'move_up')
 
-  vim.opt_local.filetype = "dash"
-  vim.g.dash_displayed = true
+  -- pressing enter on
+  self:add_mapping('n', '<CR>', 'enter')
+end
 
-  local header = headerAscii
+function model:view()
+  local header = self.data.header
+  local buttons = self.data.buttons
+  local max_height = self.data.max_height
 
   local function addSpacing_toBtns(txt1, txt2)
-    local btn_len = fn.strwidth(txt1) + fn.strwidth(txt2)
-    local spacing = dashWidth - btn_len
-    return txt1 .. string.rep(" ", spacing - 1) .. txt2 .. " "
+    local btn_len = vim.fn.strwidth(txt1) + vim.fn.strwidth(txt2)
+    local spacing = self.data.width - btn_len
+    return txt1 .. string.rep(' ', spacing - 1) .. txt2 .. ' '
   end
 
   local function addPadding_toHeader(str)
-    local start_padding = (api.nvim_win_get_width(win) - fn.strwidth(str)) / 2
-    local end_padding   = (dashWidth - fn.strwidth(str)) / 2 + 1
-    return string.rep(" ", math.floor(start_padding)) .. str .. string.rep(" ", math.floor(end_padding))
+    local start_padding = (self.internal.window.width - vim.fn.strwidth(str))
+      / 2
+    local end_padding = (self.data.width - vim.fn.strwidth(str)) / 2 + 1
+    return string.rep(' ', math.floor(start_padding))
+      .. str
+      .. string.rep(' ', math.floor(end_padding))
   end
 
   local dashboard = {}
 
   for _, val in ipairs(header) do
-    table.insert(dashboard, val .. " ")
+    table.insert(dashboard, val .. ' ')
   end
 
   for _, val in ipairs(buttons) do
     local desc = val[1]
     local lhs = core.lib.keymaps.fmt(val[2])
-    table.insert(dashboard, addSpacing_toBtns(desc, lhs) .. " ")
-    table.insert(dashboard, header[1] .. " ")
+    table.insert(dashboard, addSpacing_toBtns(desc, lhs) .. ' ')
+    table.insert(dashboard, header[1] .. ' ')
   end
 
   local result = {}
 
   -- make all lines available
-  for i = 1, math.max(get_win_height(win), max_height) do
-    result[i] = ""
+  for i = 1, math.max(self.internal.window.height, max_height) do
+    result[i] = ''
   end
 
-  local headerStart_Index = math.abs(math.floor((get_win_height(win) / 2) - (#dashboard / 2))) +
-      1 -- 1 = To handle zero case
-  local abc = math.abs(math.floor((get_win_height(win) / 2) - (#dashboard / 2))) +
-      1 -- 1 = To handle zero case
+  local headerStart_Index = math.abs(
+    math.floor((self.internal.window.height / 2) - (#dashboard / 2))
+  ) + 1 -- 1 = To handle zero case
+  local abc = math.abs(
+    math.floor((self.internal.window.height / 2) - (#dashboard / 2))
+  ) + 1 -- 1 = To handle zero case
+  self.data.abc = abc
+
+  self:send 'update_keybind_linenr'
 
   -- set ascii
   for _, val in ipairs(dashboard) do
     result[headerStart_Index] = addPadding_toHeader(val)
     headerStart_Index = headerStart_Index + 1
   end
+  self.data.header_start_index = headerStart_Index
 
-  api.nvim_buf_set_lines(buf, 0, -1, false, result)
-
-  local dash = api.nvim_create_namespace "dash"
-  local horiz_pad_index = math.floor((api.nvim_win_get_width(win) / 2) - (dashWidth / 2)) - 2
+  local horiz_pad_index = math.floor(
+    (self.internal.window.width / 2) - (self.data.width / 2)
+  ) - 2
 
   for i = abc, abc + #header - 3 do
-    api.nvim_buf_add_highlight(buf, dash, "DashAscii", i, horiz_pad_index, -1)
+    self:add_hl('DashAscii', i, horiz_pad_index, -1)
   end
 
   for i = abc + #header - 2, abc + #dashboard do
-    api.nvim_buf_add_highlight(buf, dash, "DashButtons", i, horiz_pad_index, -1)
+    self:add_hl('DashButtons', i, horiz_pad_index, -1)
   end
 
-  api.nvim_win_set_cursor(win, { abc + #header, math.floor((vim.o.columns - dashWidth) / 2) - 2 })
+  return result
+end
 
-  local first_btn_line = abc + #header + 2
-  local keybind_lineNrs = {}
+function model:update(msg)
+  local fn = {
+    -- hls acts as a fixup here
+    hls = function()
+      if not self.data.cursor_init then
+        self:send 'cursor_init'
+      end
+    end,
+    cursor_init = function()
+      api.nvim_win_set_cursor(self.internal.win, {
+        self.data.abc + #self.data.header,
+        math.floor((vim.o.columns - self.data.width) / 2) - 2,
+      })
+      self.data.cursor_init = true
+    end,
+    update_keybind_linenr = function()
+      local first_btn_line = self.data.abc + #self.data.header + 2
+      local keybind_lineNrs = {}
 
-  for _, _ in ipairs(buttons) do
-    table.insert(keybind_lineNrs, first_btn_line - 2)
-    first_btn_line = first_btn_line + 2
-  end
+      for _, _ in ipairs(self.data.buttons) do
+        table.insert(keybind_lineNrs, first_btn_line - 2)
+        first_btn_line = first_btn_line + 2
+      end
 
-  vim.keymap.set("n", "q", ":quit<cr>", { buffer = true })
-  vim.keymap.set("n", "h", "", { buffer = true })
-  vim.keymap.set("n", "<Left>", "", { buffer = true })
-  vim.keymap.set("n", "l", "", { buffer = true })
-  vim.keymap.set("n", "<Right>", "", { buffer = true })
-  vim.keymap.set("n", "<Up>", "", { buffer = true })
-  vim.keymap.set("n", "<Down>", "", { buffer = true })
+      self.data.keybind_linenr = keybind_lineNrs
+    end,
+    move_down = function()
+      local linenrs = self.data.keybind_linenr
+      local cur = vim.fn.line '.'
+      local target_line = cur == linenrs[#linenrs] and linenrs[1] or cur + 2
+      api.nvim_win_set_cursor(
+        self.internal.win,
+        { target_line, math.floor((vim.o.columns - self.data.width) / 2) - 2 }
+      )
+    end,
+    move_up = function()
+      local linenrs = self.data.keybind_linenr
+      local cur = vim.fn.line '.'
+      local target_line = cur == linenrs[1] and linenrs[#linenrs] or cur - 2
+      api.nvim_win_set_cursor(
+        self.internal.win,
+        { target_line, math.floor((vim.o.columns - self.data.width) / 2) - 2 }
+      )
+    end,
+    enter = function()
+      for i, val in ipairs(self.data.keybind_linenr) do
+        if val == vim.fn.line '.' then
+          local action = self.data.buttons[i][3]
 
-  vim.keymap.set("n", "k", function()
-    local cur = fn.line "."
-    local target_line = cur == keybind_lineNrs[1] and keybind_lineNrs[#keybind_lineNrs] or cur - 2
-    api.nvim_win_set_cursor(win, { target_line, math.floor((vim.o.columns - dashWidth) / 2) - 2 })
-  end, { buffer = true })
-
-  vim.keymap.set("n", "j", function()
-    local cur = fn.line "."
-    local target_line = cur == keybind_lineNrs[#keybind_lineNrs] and keybind_lineNrs[1] or cur + 2
-    api.nvim_win_set_cursor(win, { target_line, math.floor((vim.o.columns - dashWidth) / 2) - 2 })
-  end, { buffer = true })
-
-  -- pressing enter on
-  vim.keymap.set("n", "<CR>", function()
-    for i, val in ipairs(keybind_lineNrs) do
-      if val == fn.line "." then
-        local action = buttons[i][3]
-
-        if type(action) == "string" then
-          vim.cmd(action)
-        elseif type(action) == "function" then
-          action()
+          if type(action) == 'string' then
+            vim.cmd(action)
+          elseif type(action) == 'function' then
+            action()
+          end
         end
       end
-    end
-  end, { buffer = true })
+    end,
+  }
 
-  -- buf only options
-  vim.opt_local.buflisted = false
-  vim.opt_local.buftype = 'nofile'
-  vim.opt_local.modifiable = false
-  vim.opt_local.number = false
-  vim.opt_local.list = false
-  vim.opt_local.relativenumber = false
-  vim.opt_local.wrap = false
-  vim.opt_local.cul = false
-  vim.opt_local.colorcolumn = "0"
+  if not fn[msg] or type(fn[msg]) ~= 'function' then
+    return
+  end
+  return fn[msg]()
+end
+
+local M = {}
+
+function M.open()
+  model:open()
 end
 
 return M
