@@ -133,9 +133,21 @@ function parts.load_transparency(_)
   require 'core.plugin.transparency'.setup()
 end
 
+function parts.load_inputs(_)
+  local inputs = core.config.inputs
+  local ok
+  if type(inputs) == 'string' then
+    ok, inputs = pcall(require, inputs)
+    if not ok then return end
+  end
+  core.config.inputs = inputs
+  core._inputs = parse_inputs(core.config.inputs)
+end
+
 function parts.preload(_)
   parts.load_lib {}
 
+  parts.load_inputs {}
   core.path.lazy = ('%s/%s'):format(core.path.root, 'lazy')
   require 'core.bootstrap'.boot 'keymaps'
   require 'core.bootstrap'.boot 'yosu'
