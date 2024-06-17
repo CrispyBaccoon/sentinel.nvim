@@ -27,14 +27,14 @@ function model:init()
   ---@type DashConfig
   local config = core.modules.core.dash.opts
   -- setup variables
-  local buttons = config.buttons
+  local buttons = vim.deepcopy(config.buttons)
   if type(config.buttons) == 'function' then
     buttons = config.buttons()
   end
   self.data.buttons = buttons
 
   -- view
-  local headerAscii = config.header
+  local headerAscii = vim.deepcopy(config.header)
   local emmptyLine = string.rep(' ', vim.fn.strwidth(headerAscii[1]))
 
   table.insert(headerAscii, 1, emmptyLine)
