@@ -65,7 +65,7 @@ end
 ---@param spec LazyPluginSpec
 function Util.boot(spec)
   if not vim.uv.fs_stat(spec.dir) then
-    Util.log('core.utils', 'module ' .. spec.name .. ' not found. bootstrapping...', 'warn')
+    Util.log('core.utils', ('module %s [%s] not found. bootstrapping...'):format(spec.name, spec.dir), 'warn')
     Util.install(spec)
   end
   Util.add_to_path(spec.dir)
