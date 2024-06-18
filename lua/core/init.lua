@@ -105,13 +105,13 @@ function M.setup(...)
   end
   CONFIG_MODULE = config.config_module or 'custom'
 
-  -- preload keymaps module
-  parts.preload {}
-
   config.config_module = CONFIG_MODULE
   config.modules = modules or config.modules
 
   require 'core.config'.setup(config)
+
+  -- preload keymaps module
+  parts.preload {}
 
   M.load()
 end
