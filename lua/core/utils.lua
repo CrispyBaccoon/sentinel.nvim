@@ -53,7 +53,7 @@ function Util.install(spec)
     "--filter=blob:none",
     "https://github.com/" .. spec.url .. ".git",
     modulepath,
-  }, { cwd = core.path.root }):wait()
+  }, {}):wait()
   if obj.code > 0 then
     Util.log('core.utils', 'error while cloning ' .. spec.name .. ' at ' .. modulepath ..
       '\n\t' .. obj.stdout .. '\n\t' .. obj.stderr, 'error')
