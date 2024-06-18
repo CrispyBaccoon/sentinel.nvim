@@ -49,7 +49,7 @@ curl -fsSL https://github.com/comfysage/chaivim/raw/mega/utils/installer/install
 local rootpath = vim.fn.stdpath("data") .. "/core"
 local chaipath = rootpath .. "/chai"
 
-if not vim.loop.fs_stat(chaipath) then
+if not vim.uv.fs_stat(chaipath) then
   vim.system({
     "git",
     "clone",
