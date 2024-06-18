@@ -157,7 +157,10 @@ function parts.preload(_)
   parts.load_inputs {}
   require 'core.bootstrap'.boot 'lazy.nvim'
   require 'core.bootstrap'.boot 'keymaps'
-  require 'keymaps'.setup()
+  local ok, result = SR_L 'keymaps'
+  if ok then
+    result.setup()
+  end
   require 'core.bootstrap'.boot 'yosu'
   require 'core.bootstrap'.boot 'plenary'
   require 'core.bootstrap'.boot 'telescope'
