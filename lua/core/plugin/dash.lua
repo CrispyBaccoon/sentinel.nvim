@@ -25,7 +25,7 @@ local model = require 'yosu.model'({
 
 function model:init()
   ---@type DashConfig
-  local config = core.modules.core.dash.opts
+  local config = core.modules.core.dash.opts --[[@as table]]
   -- setup variables
   local buttons = vim.deepcopy(config.buttons)
   if type(config.buttons) == 'function' then
