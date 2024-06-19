@@ -3,7 +3,7 @@ local Util = require 'core.utils'
 return {
   setup = function(opts)
     Util.log('luasnip.setup', 'loading luasnip.')
-    require 'core.bootstrap'.boot 'luasnip'
+    require 'core.plugins'.load 'luasnip'
 
     local ok, _ = SR_L 'luasnip'
     if not ok then
@@ -13,7 +13,7 @@ return {
       'saadparwaiz1/cmp_luasnip',
       'rafamadriz/friendly-snippets',
     }
-    Util.load_plugins(plugins)
+    require('core.plugins').load_plugins(plugins)
 
     require 'luasnip'.config.set_config(opts.config)
 

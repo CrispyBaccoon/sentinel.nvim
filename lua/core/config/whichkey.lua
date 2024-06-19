@@ -3,7 +3,7 @@ local Util = require 'core.utils'
 return {
   setup = function(opts)
     Util.log('whichkey.setup', 'loading whichkey.')
-    require('core.bootstrap').boot 'whichkey'
+    require('core.plugins').load 'whichkey'
 
     local ok, which = SR_L 'which-key'
     if not ok then

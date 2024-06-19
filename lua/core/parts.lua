@@ -1,4 +1,5 @@
 local Util = require 'core.utils'
+local Plugins = require 'core.plugins'
 
 local parts = {}
 
@@ -113,7 +114,7 @@ end
 function parts.colorscheme(_)
   ---@diagnostic disable-next-line: undefined-field
   if core.config.ui.base46 ~= nil and core.config.ui.colorscheme == 'base46' then
-    require('core.bootstrap').boot 'base46'
+    require('core.plugins').load 'base46'
   end
   local ok, result = pcall(vim.cmd.colorscheme, core.config.ui.colorscheme)
   if not ok then
@@ -148,23 +149,23 @@ function parts.load_inputs(_)
   core.config.inputs = inputs
   ---@class core.types.global
   ---@field _inputs LazyPluginSpec[]
-  core._inputs = Util.parse_inputs(core.config.inputs)
+  core._inputs = Plugins.parse_inputs(core.config.inputs)
 end
 
 function parts.preload(_)
   parts.load_lib {}
 
   parts.load_inputs {}
-  require 'core.bootstrap'.boot 'lazy.nvim'
-  require 'core.bootstrap'.boot 'keymaps'
+  require 'core.plugins'.load 'lazy.nvim'
+  require 'core.plugins'.load 'keymaps'
   local ok, result = SR_L 'keymaps'
   if ok then
     result.setup()
   end
-  require 'core.bootstrap'.boot 'yosu'
-  require 'core.bootstrap'.boot 'plenary'
-  require 'core.bootstrap'.boot 'telescope'
-  require 'core.bootstrap'.boot 'evergarden'
+  require 'core.plugins'.load 'yosu'
+  require 'core.plugins'.load 'plenary'
+  require 'core.plugins'.load 'telescope'
+  require 'core.plugins'.load 'evergarden'
 
   if not keymaps then
     Util.log('core.parts', 'global keymaps is not defined.', 'error')

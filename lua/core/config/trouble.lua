@@ -3,7 +3,7 @@ local Util = require 'core.utils'
 return {
   setup = function(opts)
     Util.log('trouble.setup', 'loading trouble.')
-    require('core.bootstrap').boot 'trouble'
+    require('core.plugins').load 'trouble'
 
     local ok, trouble = SR_L 'trouble'
     if not ok then
