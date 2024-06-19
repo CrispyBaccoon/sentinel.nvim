@@ -12,10 +12,10 @@ end
 
 ---@param plugins string[]
 function Plugins.load_plugins(plugins)
-  for _, url in ipairs(plugins) do
+  vim.iter(plugins):each(function(url)
     local name = Plugins.get_name(url)
     Plugins.add_to_path(('%s/%s'):format(core.path.lazy, name))
-  end
+  end)
 end
 
 ---@param path string
