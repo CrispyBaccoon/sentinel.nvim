@@ -37,17 +37,17 @@ function Plugins.install(spec)
     modulepath,
   }, {}):wait()
   if obj.code > 0 then
-    Plugins.log('core.plugins', 'error while cloning ' .. spec.name .. ' at ' .. modulepath ..
+    Util.log('core.plugins', 'error while cloning ' .. spec.name .. ' at ' .. modulepath ..
       '\n\t' .. obj.stdout .. '\n\t' .. obj.stderr, 'error')
     return
   end
-  Plugins.log('core.plugins', 'succesfully cloned ' .. spec.name, 'info')
+  Util.log('core.plugins', 'succesfully cloned ' .. spec.name, 'info')
 end
 
 ---@param spec LazyPluginSpec
 function Plugins.bootstrap(spec)
   if not vim.uv.fs_stat(spec.dir) then
-    Plugins.log('core.plugins', ('module %s [%s] not found. bootstrapping...'):format(spec.name, spec.dir), 'warn')
+    Util.log('core.plugins', ('module %s [%s] not found. bootstrapping...'):format(spec.name, spec.dir), 'warn')
     Plugins.install(spec)
   end
   Plugins.add_to_path(spec.dir)
