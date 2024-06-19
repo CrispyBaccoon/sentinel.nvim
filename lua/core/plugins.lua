@@ -20,7 +20,7 @@ end
 
 ---@param path string
 function Plugins.add_to_path(path)
-  Util.log('core.utils', ('add "%s" to path'):format(path))
+  Util.log('core.plugins', ('add "%s" to path'):format(path))
   ---@diagnostic disable-next-line: undefined-field
   vim.opt.rtp:prepend(path)
 end
@@ -37,17 +37,17 @@ function Plugins.install(spec)
     modulepath,
   }, {}):wait()
   if obj.code > 0 then
-    Plugins.log('core.utils', 'error while cloning ' .. spec.name .. ' at ' .. modulepath ..
+    Plugins.log('core.plugins', 'error while cloning ' .. spec.name .. ' at ' .. modulepath ..
       '\n\t' .. obj.stdout .. '\n\t' .. obj.stderr, 'error')
     return
   end
-  Plugins.log('core.utils', 'succesfully cloned ' .. spec.name, 'info')
+  Plugins.log('core.plugins', 'succesfully cloned ' .. spec.name, 'info')
 end
 
 ---@param spec LazyPluginSpec
 function Plugins.bootstrap(spec)
   if not vim.uv.fs_stat(spec.dir) then
-    Plugins.log('core.utils', ('module %s [%s] not found. bootstrapping...'):format(spec.name, spec.dir), 'warn')
+    Plugins.log('core.plugins', ('module %s [%s] not found. bootstrapping...'):format(spec.name, spec.dir), 'warn')
     Plugins.install(spec)
   end
   Plugins.add_to_path(spec.dir)
