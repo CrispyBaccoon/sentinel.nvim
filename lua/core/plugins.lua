@@ -71,7 +71,7 @@ function Plugins.parse_inputs(props)
     if #v == 0 and not v.url then
       return
     end
-    v.url = v.url or v[1]
+    v.url = v.url or ('https://github.com/%s.git'):format(v[1])
     if not v.name then
       v.name = Plugins.get_name(v.url)
     end
