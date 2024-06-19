@@ -1,6 +1,6 @@
 return {
   setup = function(opts)
-    require 'core.bootstrap'.boot 'gitsigns'
+    require 'core.plugins'.load 'gitsigns'
 
     local ok, gs = SR_L 'gitsigns'
     if not ok then

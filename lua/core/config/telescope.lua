@@ -69,11 +69,11 @@ M.setup = function(opts)
   require 'telescope'.setup(opts.config)
 
   if opts.use_fzf then
-    require 'core.bootstrap'.boot 'telescope_fzf'
+    require 'core.plugins'.load 'telescope_fzf'
     require 'telescope'.load_extension 'fzf'
   end
 
-  require 'core.bootstrap'.boot 'telescope_select'
+  require 'core.plugins'.load 'telescope_select'
   require 'telescope'.load_extension 'ui-select'
 
   if opts.theme and type(opts.theme) == 'string' then

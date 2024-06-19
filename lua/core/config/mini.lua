@@ -10,7 +10,7 @@ end
 return {
   setup = function(opts)
     Util.log('mini.setup', 'loading mini.')
-    require 'core.bootstrap'.boot 'mini'
+    require 'core.plugins'.load 'mini'
 
     for name, c in pairs(opts.plugins) do
       load_plugin(name, c)

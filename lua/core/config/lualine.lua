@@ -62,7 +62,7 @@ return {
   ---@param opts CoreLualineOpts
   setup = function(opts)
     Util.log('lualine.setup', 'loading lualine.')
-    require 'core.bootstrap'.boot 'lualine'
+    require 'core.plugins'.load 'lualine'
 
     local ok, lualine = SR_L 'lualine'
     if not ok then

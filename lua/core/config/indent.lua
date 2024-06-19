@@ -12,7 +12,7 @@ return {
   end,
   setup = function(opts)
     Util.log('indent.setup', 'loading indent.')
-    require('core.bootstrap').boot 'indent'
+    require('core.plugins').load 'indent'
 
     local ok, ibl = SR_L 'ibl'
     if not ok then

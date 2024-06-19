@@ -9,13 +9,13 @@ return {
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-cmdline'
     }
-    Util.load_plugins(sources)
+    require('core.plugins').load_plugins(sources)
   end,
   setup = function(opts)
     vim.g.indentLine_conceallevel = 2
     vim.g.indentLine_concealcursor = "inc"
 
-    require 'core.bootstrap'.boot 'nvim-cmp'
+    require 'core.plugins'.load 'nvim-cmp'
 
     local ok, cmp = SR_L 'cmp'
     if not ok then

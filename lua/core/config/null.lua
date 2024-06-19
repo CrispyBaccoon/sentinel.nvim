@@ -3,7 +3,7 @@ local Util = require 'core.utils'
 return {
   setup = function(opts)
     Util.log('null.setup', 'loading null-ls.')
-    require('core.bootstrap').boot 'null'
+    require('core.plugins').load 'null'
 
     local ok, null_ls = SR_L 'null-ls'
     if not ok then

@@ -26,7 +26,7 @@ local opts_table = {
 return {
   setup = function(opts)
     Util.log('fidget.setup', 'loading fidget.')
-    require('core.bootstrap').boot 'fidget'
+    require('core.plugins').load 'fidget'
 
     local ok, fidget = SR_L 'fidget'
     if not ok then

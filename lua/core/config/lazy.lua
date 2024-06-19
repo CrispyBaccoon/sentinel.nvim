@@ -9,7 +9,7 @@ return {
     core.modules.core.lazy.opts = opts
 
     Util.log('lazy.setup', 'loading lazy.')
-    require 'core.bootstrap'.boot 'lazy.nvim'
+    require 'core.plugins'.load 'lazy.nvim'
 
     Util.log('lazy.setup', 'loading plugins.')
     ---@diagnostic disable-next-line: redundant-parameter
