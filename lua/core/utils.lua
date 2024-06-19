@@ -1,4 +1,5 @@
 local Util = {}
+local Plugins = require 'core.plugins'
 
 --- vim.notify wrapper to avoid msg overload
 ---@param msg string
@@ -28,11 +29,8 @@ end
 ---@param plugins string[]
 function Util.load_plugins(plugins)
   for _, url in ipairs(plugins) do
-    local _url = vim.split(url, '/')
-    if #_url > 1 then
-      local name = _url[#_url]
-      Util.add_to_path(('%s/%s'):format(core.path.lazy, name))
-    end
+    local name = Plugins.get_name(url)
+    Util.add_to_path(('%s/%s'):format(core.path.lazy, name))
   end
 end
 
@@ -80,11 +78,7 @@ function Util.parse_inputs(props)
     end
     v.url = v.url or v[1]
     if not v.name then
-      local _url = vim.split(v.url, '/')
-      if #_url < 2 then
-        return
-      end
-      v.name = _url[#_url]
+      v.name = Plugins.get_name(v.url)
     end
     v.dir = v.dir or vim.fs.joinpath(core.path.lazy, v.name)
     return v
