@@ -33,7 +33,7 @@ local config_modules = {
 
 local function parse_c(c, ...)
   if type(c) == 'string' then
-    local ok, mod = SR(('core.ui.statusline.modules.%s'):format(c))
+    local ok, mod = pcall(require, ('core.ui.statusline.modules.%s'):format(c))
     if ok then
       ---@diagnostic disable-next-line: redefined-local
       local ok, str = pcall(mod, ...)
