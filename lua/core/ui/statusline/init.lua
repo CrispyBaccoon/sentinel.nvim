@@ -75,24 +75,24 @@ M.parse = function()
   local m = utils.getmode()
 
   modules[#modules + 1] = '%#St_normal#'
-      .. m.hl .. ' '
+      .. m.hl('a') .. ' '
       .. table.concat(_modules.a)
-      .. m.sep_hl
+      .. m.sep_hl('a')
       .. sep.r
-  modules[#modules + 1] = '%#St_section_b#'
+  modules[#modules + 1] = m.hl('b')
       .. table.concat(_modules.b)
-      .. '%#St_section_b_sep#'
+      .. m.sep_hl('b')
       .. sep.r
-  modules[#modules + 1] = '%#St_section_c#' .. table.concat(_modules.c)
+  modules[#modules + 1] = m.hl('c') .. table.concat(_modules.c)
   modules[#modules + 1] = '%#St_normal#' .. sep.mid
-  modules[#modules + 1] = '%#St_section_m#' .. table.concat(_modules.m)
+  modules[#modules + 1] = m.hl('m') .. table.concat(_modules.m)
   modules[#modules + 1] = '%#St_normal#' .. sep.mid
-  modules[#modules + 1] = '%#St_section_x#' .. table.concat(_modules.x)
-  modules[#modules + 1] = '%#St_section_y_sep#'
+  modules[#modules + 1] = m.hl('x') .. table.concat(_modules.x)
+  modules[#modules + 1] = m.sep_hl('y')
       .. sep.l
-      .. '%#St_section_y#'
+      .. m.hl('y')
       .. table.concat(_modules.y)
-  modules[#modules + 1] = m.sep_hl .. sep.l .. m.hl .. table.concat(_modules.z)
+  modules[#modules + 1] = m.sep_hl('z') .. sep.l .. m.hl('z') .. table.concat(_modules.z)
 
   -- return table.concat(_modules)
 

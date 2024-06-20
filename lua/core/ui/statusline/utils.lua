@@ -17,47 +17,47 @@ end
 
 ---@type { [NvMode]: { [1]: string, [2]: string } }
 utils.modes = {
-  ["n"] = { "NORMAL", "St_NormalMode" },
-  ["no"] = { "NORMAL (no)", "St_NormalMode" },
-  ["nov"] = { "NORMAL (nov)", "St_NormalMode" },
-  ["noV"] = { "NORMAL (noV)", "St_NormalMode" },
-  ["noCTRL-V"] = { "NORMAL", "St_NormalMode" },
-  ["niI"] = { "NORMAL i", "St_NormalMode" },
-  ["niR"] = { "NORMAL r", "St_NormalMode" },
-  ["niV"] = { "NORMAL v", "St_NormalMode" },
-  ["nt"] = { "NTERMINAL", "St_NTerminalMode" },
-  ["ntT"] = { "NTERMINAL (ntT)", "St_NTerminalMode" },
+  ["n"] = { "NORMAL", "normal" },
+  ["no"] = { "NORMAL (no)", "normal" },
+  ["nov"] = { "NORMAL (nov)", "normal" },
+  ["noV"] = { "NORMAL (noV)", "normal" },
+  ["noCTRL-V"] = { "NORMAL", "normal" },
+  ["niI"] = { "NORMAL i", "normal" },
+  ["niR"] = { "NORMAL r", "normal" },
+  ["niV"] = { "NORMAL v", "normal" },
+  ["nt"] = { "NTERMINAL", "normal" },
+  ["ntT"] = { "NTERMINAL (ntT)", "normal" },
 
-  ["v"] = { "VISUAL", "St_VisualMode" },
-  ["vs"] = { "V-CHAR (Ctrl O)", "St_VisualMode" },
-  ["V"] = { "V-LINE", "St_VisualMode" },
-  ["Vs"] = { "V-LINE", "St_VisualMode" },
-  ['\22'] = { "V-BLOCK", "St_VisualMode" },
+  ["v"] = { "VISUAL", "visual" },
+  ["vs"] = { "V-CHAR (Ctrl O)", "visual" },
+  ["V"] = { "V-LINE", "visual" },
+  ["Vs"] = { "V-LINE", "visual" },
+  ['\22'] = { "V-BLOCK", "visual" },
 
-  ["i"] = { "INSERT", "St_InsertMode" },
-  ["ic"] = { "INSERT (completion)", "St_InsertMode" },
-  ["ix"] = { "INSERT completion", "St_InsertMode" },
+  ["i"] = { "INSERT", "insert" },
+  ["ic"] = { "INSERT (completion)", "insert" },
+  ["ix"] = { "INSERT completion", "insert" },
 
-  ["t"] = { "TERMINAL", "St_TerminalMode" },
+  ["t"] = { "TERMINAL", "normal" },
 
-  ["R"] = { "REPLACE", "St_ReplaceMode" },
-  ["Rc"] = { "REPLACE (Rc)", "St_ReplaceMode" },
-  ["Rx"] = { "REPLACEa (Rx)", "St_ReplaceMode" },
-  ["Rv"] = { "V-REPLACE", "St_ReplaceMode" },
-  ["Rvc"] = { "V-REPLACE (Rvc)", "St_ReplaceMode" },
-  ["Rvx"] = { "V-REPLACE (Rvx)", "St_ReplaceMode" },
+  ["R"] = { "REPLACE", "insert" },
+  ["Rc"] = { "REPLACE (Rc)", "insert" },
+  ["Rx"] = { "REPLACEa (Rx)", "insert" },
+  ["Rv"] = { "V-REPLACE", "insert" },
+  ["Rvc"] = { "V-REPLACE (Rvc)", "insert" },
+  ["Rvx"] = { "V-REPLACE (Rvx)", "insert" },
 
-  ["s"] = { "SELECT", "St_SelectMode" },
-  ["S"] = { "S-LINE", "St_SelectMode" },
-  ['\19'] = { "S-BLOCK", "St_SelectMode" },
-  ["c"] = { "COMMAND", "St_CommandMode" },
-  ["cv"] = { "COMMAND", "St_CommandMode" },
-  ["ce"] = { "COMMAND", "St_CommandMode" },
-  ["r"] = { "PROMPT", "St_ConfirmMode" },
-  ["rm"] = { "MORE", "St_ConfirmMode" },
-  ["r?"] = { "CONFIRM", "St_ConfirmMode" },
-  ["x"] = { "CONFIRM", "St_ConfirmMode" },
-  ["!"] = { "SHELL", "St_TerminalMode" },
+  ["s"] = { "SELECT", "visual" },
+  ["S"] = { "S-LINE", "visual" },
+  ['\19'] = { "S-BLOCK", "visual" },
+  ["c"] = { "COMMAND", "command" },
+  ["cv"] = { "COMMAND", "command" },
+  ["ce"] = { "COMMAND", "command" },
+  ["r"] = { "PROMPT", "command" },
+  ["rm"] = { "MORE", "command" },
+  ["r?"] = { "CONFIRM", "command" },
+  ["x"] = { "CONFIRM", "command" },
+  ["!"] = { "SHELL", "command" },
 }
 
 ---@param mode? NvMode
@@ -68,15 +68,25 @@ function utils.getmode(mode)
 
   local mode_label = utils.modes[mode][1]
   local mode_name = utils.modes[mode][2]
-  local mode_hl = "%#" .. mode_name .. "#"
-  local mode_sep = "%#" .. mode_name .. "Sep" .. "#"
 
   return {
     label = mode_label,
     name = mode_name,
-    hl = mode_hl,
-    sep_hl = mode_sep,
+    hl = function(section)
+      return utils.construct_hl(mode_name, section)
+    end,
+    sep_hl = function(section)
+      return utils.construct_hl(mode_name, section, true)
+    end,
   }
+end
+
+---@param mode 'normal'|'insert'|'visual'|'command'
+---@param section 'a'|'b'|'c'
+---@param sep? boolean
+---@return string
+function utils.construct_hl(mode, section, sep)
+  return '%#St_' .. mode .. '_' .. (sep and (section .. '_sep') or section) .. '#'
 end
 
 return utils

@@ -32,45 +32,24 @@ local function apply_palette(palette)
   local hls = {
     ['St_normal'] = { fg = palget('normal', 'c').fg, palget('normal', 'c').fg },
   }
-  local modes = {
-    ['St_NormalMode'] = palget('normal', 'a'),
-    ['St_VisualMode'] = palget('visual', 'a'),
-    ['St_InsertMode'] = palget('insert', 'a'),
-    ['St_ReplaceMode'] = { link = 'St_InsertMode' },
-    ['St_SelectMode'] = { link = 'St_VisualMode' },
-    ['St_CommandMode'] = palget('command', 'a'),
-    ['St_TerminalMode'] = { link = 'St_NormalMode' },
-    ['St_NTerminalMode'] = { link = 'St_TerminalMode' },
-    ['St_ConfirmMode'] = { link = 'St_CommandMode' },
-  }
-  hls = vim.tbl_deep_extend('force', hls, modes)
-
-  local sections = {
-    ['St_section_b'] = palget('normal', 'b'),
-    ['St_section_c'] = palget('normal', 'c'),
-    ['St_section_m'] = palget('normal', 'c'),
-    ['St_section_x'] = palget('normal', 'c'),
-    ['St_section_y'] = palget('normal', 'b'),
-  }
+  local sections = {}
+  for _, mode in ipairs({'normal', 'insert', 'visual', 'command'}) do
+    for _, section in ipairs({'a','b','c'}) do
+      sections['St_'..mode..'_'..section] = palget(mode, section)
+    end
+    sections['St_'..mode..'_x'] = { link = 'St_' .. mode .. '_c' }
+    sections['St_'..mode..'_y'] = { link = 'St_' .. mode .. '_b' }
+    sections['St_'..mode..'_z'] = { link = 'St_' .. mode .. '_a' }
+  end
   hls = vim.tbl_deep_extend('force', hls, sections)
-  local sections_sep = {
-    ['St_section_b_sep'] = { fg = sections['St_section_b'].bg, bg = sections['St_section_c'].bg },
-    ['St_section_y_sep'] = { fg = sections['St_section_y'].bg, bg = sections['St_section_x'].bg },
-  }
+  local sections_sep = {}
+  for _, mode in ipairs({'normal', 'insert', 'visual', 'command'}) do
+    sections_sep['St_'..mode..'_a_sep'] = { fg = sections['St_'..mode..'_a'].bg, bg = sections['St_'..mode..'_b'].bg }
+    sections_sep['St_'..mode..'_b_sep'] = { fg = sections['St_'..mode..'_b'].bg, bg = sections['St_'..mode..'_c'].bg }
+    sections_sep['St_'..mode..'_y_sep'] = { link = 'St_'..mode..'_b_sep' }
+    sections_sep['St_'..mode..'_z_sep'] = { link = 'St_'..mode..'_a_sep' }
+  end
   hls = vim.tbl_deep_extend('force', hls, sections_sep)
-
-  local modes_sep = {
-    ['St_NormalModeSep'] = { fg = modes['St_NormalMode'].bg, bg = sections['St_section_b'].bg },
-    ['St_VisualModeSep'] = { fg = modes['St_VisualMode'].bg, bg = sections['St_section_b'].bg },
-    ['St_InsertModeSep'] = { fg = modes['St_InsertMode'].bg, bg = sections['St_section_b'].bg },
-    ['St_ReplaceModeSep'] = { link = 'St_InsertModeSep' },
-    ['St_SelectModeSep'] = { link = 'St_VisualModeSep' },
-    ['St_CommandModeSep'] = { link = 'St_NormalModeSep' },
-    ['St_TerminalModeSep'] = { link = 'St_NormalModeSep' },
-    ['St_NTerminalModeSep'] = { link = 'St_TerminalModeSep' },
-    ['St_ConfirmModeSep'] = { link = 'St_CommandModeSep' },
-  }
-  hls = vim.tbl_deep_extend('force', hls, modes_sep)
 
   core.lib.hl.apply(hls)
 
