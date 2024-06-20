@@ -23,6 +23,10 @@ local model = require 'yosu.model'({
 ---@field header string[]
 ---@field buttons { [1]: string, [2]: string, [3]: string|function }[]
 
+local function strwidth(...)
+  return vim.fn.strdisplaywidth(...)
+end
+
 function model:init()
   ---@type DashConfig
   local config = core.modules.core.dash.opts --[[@as table]]
@@ -35,7 +39,7 @@ function model:init()
 
   -- view
   local headerAscii = vim.deepcopy(config.header)
-  local emmptyLine = string.rep(' ', vim.fn.strwidth(headerAscii[1]))
+  local emmptyLine = string.rep(' ', strwidth(headerAscii[1]))
 
   table.insert(headerAscii, 1, emmptyLine)
   table.insert(headerAscii, 2, emmptyLine)
@@ -78,15 +82,15 @@ function model:view()
   local max_height = self.data.max_height
 
   local function addSpacing_toBtns(txt1, txt2)
-    local btn_len = vim.fn.strwidth(txt1) + vim.fn.strwidth(txt2)
+    local btn_len = strwidth(txt1) + strwidth(txt2)
     local spacing = self.data.width - btn_len
     return txt1 .. string.rep(' ', spacing - 1) .. txt2 .. ' '
   end
 
   local function addPadding_toHeader(str)
-    local start_padding = (self.internal.window.width - vim.fn.strwidth(str))
+    local start_padding = (self.internal.window.width - strwidth(str))
       / 2
-    local end_padding = (self.data.width - vim.fn.strwidth(str)) / 2 + 1
+    local end_padding = (self.data.width - strwidth(str)) / 2 + 1
     return string.rep(' ', math.floor(start_padding))
       .. str
       .. string.rep(' ', math.floor(end_padding))
