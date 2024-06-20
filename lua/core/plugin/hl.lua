@@ -109,7 +109,7 @@ return {
       diff = create_hls {
         { 'add',    'DiffAdd' },
         { 'change', 'DiffChange' },
-        { 'delete', 'DiffAdd' },
+        { 'delete', 'DiffDelete' },
       },
       syntax = create_hls {
         { 'Special', from = 'Special' },
