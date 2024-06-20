@@ -35,6 +35,28 @@ return {
 
     gs.setup(opts.config)
 
+    -- clear staged signs
+    local staged = {
+      { 'GitSignsStagedAdd', 'GitSignsAdd', },
+      { 'GitSignsStagedChange', 'GitSignsChange', },
+      { 'GitSignsStagedDelete', 'GitSignsDelete', },
+      { 'GitSignsStagedChangedelete', 'GitSignsChangedelete', },
+      { 'GitSignsStagedTopdelete', 'GitSignsTopdelete', },
+      { 'GitSignsStagedAddNr', 'GitSignsAddNr', },
+      { 'GitSignsStagedChangeNr', 'GitSignsChangeNr', },
+      { 'GitSignsStagedDeleteNr', 'GitSignsDeleteNr', },
+      { 'GitSignsStagedChangedeleteNr', 'GitSignsChangedeleteNr', },
+      { 'GitSignsStagedTopdeleteNr', 'GitSignsTopdeleteNr', },
+      { 'GitSignsStagedAddLn', 'GitSignsAddLn', },
+      { 'GitSignsStagedChangeLn', 'GitSignsChangeLn', },
+      { 'GitSignsStagedDeleteLn', 'GitSignsDeleteLn', },
+      { 'GitSignsStagedChangedeleteLn', 'GitSignsChangedeleteLn', },
+      { 'GitSignsStagedTopdeleteLn', 'GitSignsTopdeleteLn', },
+    }
+    vim.iter(staged):each(function(v)
+      vim.api.nvim_set_hl(0, v[1], {link=v[2]})
+    end)
+
     -- Navigation
     keymaps.normal[opts.mappings.next_hunk] = {
       function()
