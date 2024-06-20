@@ -10,23 +10,35 @@ M.setup_highlights = function()
   }
 end
 
-M.apply_highlights = function()
-  local normal_bg = core.lib.hl:get('ui', 'bg')
-  local normal_fg = core.lib.hl:get('ui', 'fg')
-
-  local accent_bg = core.lib.hl:get('ui', 'border')
-  local comment_fg = core.lib.hl:get('ui', 'comment')
+---@param palette table<'normal'|'insert'|'visual'|'command', { a?: vim.api.keyset.hl_info, b?: vim.api.keyset.hl_info, c?: vim.api.keyset.hl_info }>
+---@return boolean success
+local function apply_palette(palette)
+  local fallback = palette.normal
+  for _, s in ipairs({'a', 'b', 'c'}) do
+    if not fallback[s] then
+      return false
+    end
+  end
+  ---@param mode 'normal'|'insert'|'visual'|'command'
+  ---@param section 'a'|'b'|'c'
+  ---@return vim.api.keyset.hl_info
+  local function palget(mode, section)
+    if palette[mode] and palette[mode][section] then
+      return palette[mode][section]
+    end
+    return fallback[section]
+  end
 
   local hls = {
-    ['St_normal'] = { fg = normal_fg, bg = core.lib.hl:get('ui', 'bg_accent') },
+    ['St_normal'] = { fg = palget('normal', 'c').fg, palget('normal', 'c').fg },
   }
   local modes = {
-    ['St_NormalMode'] = { fg = normal_bg, bg = core.lib.hl:get('ui', 'accent') },
-    ['St_VisualMode'] = { fg = normal_bg, bg = core.lib.hl:get('syntax', 'constant') },
-    ['St_InsertMode'] = { fg = normal_bg, bg = core.lib.hl:get('ui', 'focus') },
+    ['St_NormalMode'] = palget('normal', 'a'),
+    ['St_VisualMode'] = palget('visual', 'a'),
+    ['St_InsertMode'] = palget('insert', 'a'),
     ['St_ReplaceMode'] = { link = 'St_InsertMode' },
     ['St_SelectMode'] = { link = 'St_VisualMode' },
-    ['St_CommandMode'] = { link = 'St_NormalMode' },
+    ['St_CommandMode'] = palget('command', 'a'),
     ['St_TerminalMode'] = { link = 'St_NormalMode' },
     ['St_NTerminalMode'] = { link = 'St_TerminalMode' },
     ['St_ConfirmMode'] = { link = 'St_CommandMode' },
@@ -34,11 +46,11 @@ M.apply_highlights = function()
   hls = vim.tbl_deep_extend('force', hls, modes)
 
   local sections = {
-    ['St_section_b'] = { bg = accent_bg },
-    ['St_section_c'] = { fg = comment_fg, bg = core.lib.hl:get('ui', 'bg_accent') },
-    ['St_section_m'] = { fg = comment_fg, bg = core.lib.hl:get('ui', 'bg_accent') },
-    ['St_section_x'] = { fg = comment_fg, bg = core.lib.hl:get('ui', 'bg_accent') },
-    ['St_section_y'] = { bg = accent_bg },
+    ['St_section_b'] = palget('normal', 'b'),
+    ['St_section_c'] = palget('normal', 'c'),
+    ['St_section_m'] = palget('normal', 'c'),
+    ['St_section_x'] = palget('normal', 'c'),
+    ['St_section_y'] = palget('normal', 'b'),
   }
   hls = vim.tbl_deep_extend('force', hls, sections)
   local sections_sep = {
@@ -61,6 +73,34 @@ M.apply_highlights = function()
   hls = vim.tbl_deep_extend('force', hls, modes_sep)
 
   core.lib.hl.apply(hls)
+
+  return true
+end
+
+M.apply_highlights = function()
+  local scheme_name = core.config.ui.colorscheme
+  local ok, palette = pcall(require, ('lualine.themes.%s'):format(scheme_name))
+  if not ok then
+    local normal_bg = core.lib.hl:get('ui', 'bg')
+    local normal_fg = core.lib.hl:get('ui', 'fg')
+
+    local accent_bg = core.lib.hl:get('ui', 'border')
+    local comment_fg = core.lib.hl:get('ui', 'comment')
+    palette = {
+      normal = {
+        a = { fg = normal_bg, bg = core.lib.hl:get('ui', 'accent') },
+        b = { fg = normal_fg, bg = accent_bg },
+        c = { fg = comment_fg, bg = core.lib.hl:get('ui', 'bg_accent') },
+      },
+      insert = {
+        a = { fg = normal_bg, bg = core.lib.hl:get('ui', 'focus') },
+      },
+      visual = {
+        a = { fg = normal_bg, bg = core.lib.hl:get('syntax', 'constant') },
+      },
+    }
+  end
+  apply_palette(palette)
 end
 
 return M
