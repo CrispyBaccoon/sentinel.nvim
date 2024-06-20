@@ -15,9 +15,11 @@ local separators = core.lib.icons.separator[separator_style]
 if not separators then
   separators = { left = '', right = '' }
 end
-local sep_r = separators.right
-local sep_l = separators.left
-local sep_mid = '%='
+local sep = {
+  r = separators.right,
+  l = separators.left,
+  mid = '%=',
+}
 
 local config_modules = {
   a = { 'mode' },
@@ -76,21 +78,21 @@ M.parse = function()
       .. m.hl .. ' '
       .. table.concat(_modules.a)
       .. m.sep_hl
-      .. sep_r
+      .. sep.r
   modules[#modules + 1] = '%#St_section_b#'
       .. table.concat(_modules.b)
       .. '%#St_section_b_sep#'
-      .. sep_r
+      .. sep.r
   modules[#modules + 1] = '%#St_section_c#' .. table.concat(_modules.c)
-  modules[#modules + 1] = '%#St_normal#' .. sep_mid
+  modules[#modules + 1] = '%#St_normal#' .. sep.mid
   modules[#modules + 1] = '%#St_section_m#' .. table.concat(_modules.m)
-  modules[#modules + 1] = '%#St_normal#' .. sep_mid
+  modules[#modules + 1] = '%#St_normal#' .. sep.mid
   modules[#modules + 1] = '%#St_section_x#' .. table.concat(_modules.x)
   modules[#modules + 1] = '%#St_section_y_sep#'
-      .. sep_l
+      .. sep.l
       .. '%#St_section_y#'
       .. table.concat(_modules.y)
-  modules[#modules + 1] = m.sep_hl .. sep_l .. m.hl .. table.concat(_modules.z)
+  modules[#modules + 1] = m.sep_hl .. sep.l .. m.hl .. table.concat(_modules.z)
 
   -- return table.concat(_modules)
 
