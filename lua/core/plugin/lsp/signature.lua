@@ -22,7 +22,7 @@ H.is_lsp_trigger = function(char, type)
   }
 
   for _, client in pairs(vim.lsp.buf_get_clients()) do
-    triggers = Util.table_get(client, { 'server_capabilities', providers[type], 'triggerCharacters' })
+    triggers = vim.tbl_get(client, 'server_capabilities', providers[type], 'triggerCharacters')
     if vim.tbl_contains(triggers or {}, char) then return true end
   end
   return false
@@ -45,7 +45,7 @@ H.has_lsp_clients = function(capability)
   if not capability then return true end
 
   for _, c in pairs(clients) do
-    local has_capability = Util.table_get(c.server_capabilities, capability)
+    local has_capability = vim.tbl_get(c.server_capabilities, capability)
     if has_capability then return true end
   end
   return false

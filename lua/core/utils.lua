@@ -34,19 +34,4 @@ function Util.get_diagnostic_signs()
   }
 end
 
----@param t table
----@param id string[]|string
----@return any
-function Util.table_get(t, id)
-  if type(id) ~= 'table' then return Util.table_get(t, { id }) end
-  local success, res = true, t
-  for _, i in ipairs(id) do
-    --stylua: ignore start
-    success, res = pcall(function() return res[i] end)
-    if not success or res == nil then return end
-    --stylua: ignore end
-  end
-  return res
-end
-
 return Util
