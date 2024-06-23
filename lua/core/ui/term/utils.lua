@@ -52,16 +52,4 @@ util.execute_type_cmd = function(type, ui_opts, override)
   type_cmds[type]()
 end
 
----@param terminals core.types.ui.term.terminal[]
----@return core.types.ui.term.terminal[]
-util.verify_terminals = function(terminals)
-  return vim.iter(terminals):filter(function(term)
-    if not term.buf then return false end
-    return vim.api.nvim_buf_is_valid(term.buf)
-  end):map(function(term)
-      term.open = vim.api.nvim_win_is_valid(term.win)
-      return term
-    end):totable()
-end
-
 return util

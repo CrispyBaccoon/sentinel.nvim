@@ -6,40 +6,28 @@ local chaiterm = {}
 ---@type core.types.ui.term.terminal[]
 local terminals = {}
 
----@param list core.types.ui.term.terminal[]?
----@return core.types.ui.term.terminal?
-local function get_last(list)
-  if list then
-    return not vim.tbl_isempty(list) and list[#list] or nil
-  end
-  return terminals[#terminals] or nil
-end
-
----@param type core.types.ui.term.type
----@param list core.types.ui.term.terminal[]?
----@return core.types.ui.term.terminal[]
-local function get_type(type, list)
-  list = list or terminals
-  return vim.iter(list):filter(function(t)
+local function filter_type(type)
+  return function(t)
     return t.type == type
-  end):totable()
+  end
 end
 
+local function get_type(type)
+  return vim.iter(terminals):filter(filter_type(type))
+end
+
+---@return Iter
 local function get_still_open()
   if not terminals then
     return {}
   end
   return vim.iter(terminals):filter(function(t)
     return t.open == true
-  end):totable()
+  end)
 end
 
 local function get_last_still_open()
-  return get_last(get_still_open())
-end
-
-local function get_type_last(type)
-  return get_last(get_type(type))
+  return get_still_open():last()
 end
 
 local function get_term(key, value)
@@ -50,7 +38,7 @@ local function get_term(key, value)
 end
 
 local create_term_window = function(type)
-  local existing = terminals and #get_type(type, get_still_open()) > 0
+  local existing = get_still_open():filter(filter_type(type)):next()
   util.execute_type_cmd(
     type,
     core.lib.options:get('ui', 'terminal', 'ui'),
@@ -62,13 +50,24 @@ local create_term_window = function(type)
   return api.nvim_get_current_win()
 end
 
+---@return Iter
+local verify_terminals = function()
+  return vim.iter(terminals):filter(function(term)
+    if not term.buf then return false end
+    return vim.api.nvim_buf_is_valid(term.buf)
+  end):map(function(term)
+      term.open = vim.api.nvim_win_is_valid(term.win)
+      return term
+    end)
+end
+
 local ensure_and_send = function(cmd, type)
-  terminals = util.verify_terminals(terminals)
+  terminals = verify_terminals():totable()
   local function select_term()
     if not type then
       return get_last_still_open() or chaiterm.new 'horizontal'
     else
-      return get_type_last(type) or chaiterm.new(type)
+      return get_type(type):last() or chaiterm.new(type)
     end
   end
   local term = select_term()
@@ -115,13 +114,13 @@ chaiterm.get_and_hide = function(key, value)
 end
 
 chaiterm.hide = function(type)
-  local term = type and get_type_last(type) or get_last()
+  local term = type and get_type(type):last() or vim.iter(terminals):last()
   chaiterm.hide_term(term)
 end
 
 chaiterm.show = function(type)
-  terminals = util.verify_terminals(terminals)
-  local term = type and get_type_last(type) or terminals.last
+  terminals = verify_terminals():totable()
+  local term = type and get_type(type):last() or vim.iter(terminals):last()
   chaiterm.show_term(term)
 end
 
@@ -145,8 +144,8 @@ chaiterm.new = function(type, shell_override)
 end
 
 chaiterm.toggle = function(type)
-  terminals = util.verify_terminals(terminals)
-  local term = get_type_last(type)
+  terminals = verify_terminals():totable()
+  local term = get_type(type):last()
 
   if not term then
     term = chaiterm.new(type)
@@ -158,9 +157,9 @@ chaiterm.toggle = function(type)
 end
 
 chaiterm.toggle_all_terms = function()
-  terminals = util.verify_terminals(terminals)
+  terminals = verify_terminals():totable()
 
-  for _, term in ipairs(terminals.list) do
+  for _, term in ipairs(terminals) do
     if term.open then
       chaiterm.hide_term(term)
     else
@@ -178,7 +177,7 @@ end
 chaiterm.list_active_terms = function(property)
   local terms = get_still_open()
   if property then
-    return vim.iter(terms):map(function(t)
+    return terms:map(function(t)
       return t[property]
     end):totable()
   end
