@@ -16,9 +16,9 @@ local function set_hi(group, colors)
   ---@type vim.api.keyset.highlight
   local color = {}
 
-  for k, v in pairs(colors) do
+  vim.iter(pairs(colors)):each(function(k, v)
     color[k] = v
-  end
+  end)
 
   color.fg = type(colors.fg) == 'table' and colors.fg[1] or colors.fg
   color.bg = type(colors.bg) == 'table' and colors.bg[1] or colors.bg
@@ -35,9 +35,9 @@ end
 
 ---@param hlgroups HLGroups
 local function set_highlights(hlgroups)
-  for group, colors in pairs(hlgroups) do
+  vim.iter(pairs(hlgroups)):each(function(group, colors)
     set_hi(group, colors)
-  end
+  end)
 end
 
 return {

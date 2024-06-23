@@ -112,15 +112,15 @@ end,
 ---@param opts BaseConfig
 function M.setup(opts)
   -- { { patterns... }, description, callback }
-  for _, item in ipairs(opts.file_associations) do
+  vim.iter(ipairs(opts.file_associations)):each(function(_, item)
     if not type(item[1]) == 'table' then
-      goto continue
+      return
     end
     if not type(item[2]) == 'string' then
-      goto continue
+      return
     end
     if not type(item[3]) == 'function' then
-      goto continue
+      return
     end
     vim.api.nvim_create_autocmd('BufEnter', {
       pattern = item[1],
@@ -128,8 +128,7 @@ function M.setup(opts)
       group = core.group_id,
       desc = item[2],
     })
-    ::continue::
-  end
+  end)
 end
 
 return M

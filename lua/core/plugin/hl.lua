@@ -54,7 +54,7 @@
 ---@return { [string]: core.types.hl.highlight }
 local function create_hls(props)
   local hls = {}
-  for _, v in ipairs(props) do
+  vim.iter(ipairs(props)):each(function(_, v)
     local name = v[1]
 
     function get(name)
@@ -69,7 +69,7 @@ local function create_hls(props)
       return copy.fg or 'none'
     end
     hls[name] = get(v[2])
-  end
+  end)
   return hls
 end
 

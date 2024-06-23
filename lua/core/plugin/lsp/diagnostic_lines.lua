@@ -116,14 +116,14 @@ function M.render_current_line(diagnostics, ns, bufnr, opts)
   local current_line_diag = {}
   local lnum = vim.api.nvim_win_get_cursor(0)[1] - 1
 
-  for _, diagnostic in pairs(diagnostics) do
+  vim.iter(pairs(diagnostics)):each(function(_, diagnostic)
     local show = diagnostic.end_lnum
         and (lnum >= diagnostic.lnum and lnum <= diagnostic.end_lnum)
       or (lnum == diagnostic.lnum)
     if show then
       table.insert(current_line_diag, diagnostic)
     end
-  end
+  end)
 
   M.show(ns, bufnr, current_line_diag, opts)
 end
@@ -195,7 +195,7 @@ function M.show(namespace, bufnr, diagnostics, opts)
   local line_stacks = {}
   local prev_lnum = -1
   local prev_col = 0
-  for _, diagnostic in ipairs(diagnostics) do
+  vim.iter(ipairs(diagnostics)):each(function(_, diagnostic)
     if line_stacks[diagnostic.lnum] == nil then
       line_stacks[diagnostic.lnum] = {}
     end
@@ -238,9 +238,9 @@ function M.show(namespace, bufnr, diagnostics, opts)
 
     prev_lnum = diagnostic.lnum
     prev_col = diagnostic.col
-  end
+  end)
 
-  for lnum, lelements in pairs(line_stacks) do
+  vim.iter(pairs(line_stacks)):each(function(lnum, lelements)
     local virt_lines = {}
 
     -- We read in the order opposite to insertion because the last
@@ -353,7 +353,7 @@ function M.show(namespace, bufnr, diagnostics, opts)
       0,
       { virt_lines = virt_lines }
     )
-  end
+  end)
 end
 
 ---@param namespace number

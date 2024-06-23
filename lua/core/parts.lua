@@ -6,8 +6,8 @@ local parts = {}
 function parts.load_modules(_)
   parts.load_config {}
 
-  for main_mod, modules in pairs(core.modules) do
-    for _, spec in pairs(modules) do
+  vim.iter(pairs(core.modules)):each(function(main_mod, modules)
+    vim.iter(pairs(modules)):each(function(_, spec)
       core.lib.autocmd.create {
         event = 'custom', type = 'lazycore', priority = spec.priority or nil,
         desc = ('lazycore:%s:%s'):format(main_mod, spec.name),
@@ -15,8 +15,8 @@ function parts.load_modules(_)
           parts.lazy_load(main_mod, spec.name)
         end
       }
-    end
-  end
+    end)
+  end)
 
   require 'core.load.handle'.start 'lazycore'
 end
@@ -27,11 +27,11 @@ function parts.load_config(_)
     return
   end
 
-  for main_mod, modules in pairs(core.config.modules) do
+  vim.iter(pairs(core.config.modules)):each(function(main_mod, modules)
     Util.log('core.parts', 'loading ' .. main_mod .. ' modules.')
     core.modules[main_mod] = core.modules[main_mod] or {}
 
-    for _, spec in pairs(modules) do
+    vim.iter(pairs(modules)):each(function(_, spec)
       if spec.opts and type(spec.opts) == 'string' then
         spec.opts = require(spec.opts)
       end
@@ -39,11 +39,11 @@ function parts.load_config(_)
       spec = require 'core.modules'.setup(main_mod, name, spec)
 
       core.modules[main_mod][name] = spec
-    end
+    end)
 
     core.modules[main_mod] = vim.tbl_deep_extend("keep", core.modules[main_mod],
       require 'core.modules'.get_defaults(main_mod))
-  end
+  end)
 
   -- update options table
   core.lib.options.__value = core.modules.core

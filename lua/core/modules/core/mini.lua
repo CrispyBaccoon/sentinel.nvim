@@ -154,18 +154,18 @@ return {
               -- [!NOTE] highlight hex color strings (`#rrggbb`) using that color
               hex_color = hipatterns.gen_highlighter.hex_color(),
             }
-            for m, v in pairs(opts.groups) do
+            vim.iter(pairs(opts.groups)):each(function(m, v)
               local higroup = v[2]
               local matches = v[1]
-              for _, match in ipairs(matches) do
+              vim.iter(ipairs(matches)):each(function(_, match)
                 highlighters[m .. '_' .. match] = { pattern = "%f[%w]()" .. match .. "()%f[%W]", group = higroup }
                 highlighters['note_' .. m .. '_' .. match] = {
                   pattern = "[[]!*" .. match .. "[]]",
                   group = higroup ..
                       ".emphasis"
                 }
-              end
-            end
+              end)
+            end)
             hipatterns.setup {
               highlighters = highlighters,
             }

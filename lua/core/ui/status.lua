@@ -34,7 +34,7 @@ function model:init()
   local module_order = {}
   local _module_order = {}
   local items = {}
-  for _, item in ipairs(_items) do
+  vim.iter(ipairs(_items)):each(function(_, item)
     local split = vim.split(item[1], '%.')
     if #split > 1 then
       local module, task = unpack(split, 1, 2)
@@ -48,7 +48,7 @@ function model:init()
       items[module][task].items[#items[module][task].items + 1] =
         { item[2], item[3] }
     end
-  end
+  end)
 
   self.data.items = items
   self.data.module_order = module_order
@@ -100,7 +100,7 @@ function model:view()
 
   local y = 0
   lines = {}
-  for _, module in ipairs(module_order) do
+  vim.iter(ipairs(module_order)):each(function(_, module)
     local module_str = fmt('module', module)
     local prefix = indent(1)
     y = y + 1
@@ -112,7 +112,7 @@ function model:view()
       string.len(prefix) + 1 + string.len(module_str) + 1
     )
 
-    for task, task_props in pairs(items[module]) do
+    vim.iter(pairs(items[module])):each(function(task, task_props)
       local task_str = fmt('task', task)
       prefix = indent(2)
       y = y + 1
@@ -127,7 +127,7 @@ function model:view()
       self.data.task_pos[y] = { module, task }
 
       if task_props.expand then
-        for _, v in ipairs(task_props.items) do
+        vim.iter(ipairs(task_props.items)):each(function(_, v)
           local item_str = fmt('log', v[1], v[2])
           prefix = indent(3)
           y = y + 1
@@ -139,10 +139,10 @@ function model:view()
             string.len(prefix) + 1,
             string.len(prefix) + 1 + string.len(item_str) + 1
           )
-        end
+        end)
       end
-    end
-  end
+    end)
+  end)
 
   return lines
 end

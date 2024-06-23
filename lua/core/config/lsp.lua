@@ -47,7 +47,7 @@ local function setup_servers(servers, capabilities)
 
   local nvim_lsp = require 'lspconfig'
 
-  for name, opts in pairs(servers) do
+  vim.iter(pairs(servers)):each(function(name, opts)
     if type(opts) == 'function' then
       opts = opts(nvim_lsp)
     end
@@ -55,7 +55,7 @@ local function setup_servers(servers, capabilities)
     opts.capabilities = capabilities
     Util.log('lsp.setup', string.format('setup_lsp:%s', name))
     nvim_lsp[name].setup(opts)
-  end
+  end)
 end
 
 return {

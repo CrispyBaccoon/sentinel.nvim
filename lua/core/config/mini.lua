@@ -12,8 +12,8 @@ return {
     Util.log('mini.setup', 'loading mini.')
     require 'core.plugins'.load 'mini'
 
-    for name, c in pairs(opts.plugins) do
+    vim.iter(pairs(opts.plugins)):each(function(name, c)
       load_plugin(name, c)
-    end
+    end)
   end
 }

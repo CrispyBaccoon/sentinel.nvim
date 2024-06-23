@@ -32,14 +32,14 @@ return {
     end
 
     local modules = {}
-    for event, list in pairs(default_modules[main]) do
-      for i, module in ipairs(list) do
+    vim.iter(pairs(default_modules[main])):each(function(event, list)
+      vim.iter(ipairs(list)):each(function(i, module)
         modules[module] = require 'core.modules'.setup(main, module, {
           priority = i,
           event = event_map[event] or nil,
         })
-      end
-    end
+      end)
+    end)
     return modules
   end,
   setup = function(main, module, spec)

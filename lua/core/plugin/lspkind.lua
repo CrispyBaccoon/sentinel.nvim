@@ -9,9 +9,9 @@ local cmp_hi = {
   CmpItemAbbrMatchFuzzy = { link = "CmpItemAbbrMatch" },
 }
 
-for hi_group, hl in pairs(cmp_hi) do
+vim.iter(pairs(cmp_hi)):each(function(hi_group, hl)
   vim.api.nvim_set_hl(0, hi_group, hl)
-end
+end)
 
 local kind_icons = {
   Text = core.lib.icons.syntax.text,
@@ -91,12 +91,12 @@ local kind_hl = {
   Package       = core.lib.hl:get('syntax', 'package'),
 }
 
-for kind, item in pairs(kind_hl) do
+vim.iter(pairs(kind_hl)):each(function(kind, item)
   local hi_group = string.format('CmpItemKind%s', kind)
   core.lib.hl.apply {
     [hi_group] = { fg = item },
   }
-end
+end)
 
 local max_count = 26
 

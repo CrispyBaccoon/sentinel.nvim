@@ -50,7 +50,7 @@ SR = function(module_name, starts_with_only)
   ---@diagnostic disable-next-line: undefined-field
   local luacache = (_G.__luacache or {}).cache
 
-  for pack, _ in pairs(package.loaded) do
+  vim.iter(pairs(package.loaded)):each(function(pack, _)
     if matcher(pack) then
       package.loaded[pack] = nil
 
@@ -58,7 +58,7 @@ SR = function(module_name, starts_with_only)
         luacache[pack] = nil
       end
     end
-  end
+  end)
 
   return pcall(require, module_name)
 end
@@ -93,10 +93,10 @@ end
 
 MT = function (t1, t2)
   local tnew = {}
-  for k,v in pairs(t1) do
+  vim.iter(pairs(t1)):each(function(k, v)
     tnew[k] = v
-  end
-  for k,v in pairs(t2) do
+  end)
+  vim.iter(pairs(t2)):each(function(k, v)
     if type(v) == "table" then
       if type(tnew[k] or false) == "table" then
         MT(tnew[k] or {}, t2[k] or {})
@@ -106,7 +106,7 @@ MT = function (t1, t2)
     else
       tnew[k] = v
     end
-  end
+  end)
   return tnew
 end
 

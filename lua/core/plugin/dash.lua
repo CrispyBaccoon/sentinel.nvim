@@ -62,9 +62,9 @@ function model:init()
   api.nvim_set_hl(0, 'UIDashAscii', { link = 'TablineSel' })
   api.nvim_set_hl(0, 'UIDashButtons', { link = 'Comment' })
 
-  for _, key in ipairs { 'h', 'l', '<left>', '<right>', '<up>', '<down>' } do
+  vim.iter(ipairs { 'h', 'l', '<left>', '<right>', '<up>', '<down>' }):each(function(_, key)
     self:add_mapping('n', key, '')
-  end
+  end)
 
   self:add_mapping('n', 'q', 'exit')
   self:add_mapping('n', 'j', 'move_down')
@@ -98,16 +98,16 @@ function model:view()
 
   local dashboard = {}
 
-  for _, val in ipairs(header) do
+  vim.iter(ipairs(header)):each(function(_, val)
     table.insert(dashboard, val .. ' ')
-  end
+  end)
 
-  for _, val in ipairs(buttons) do
+  vim.iter(ipairs(buttons)):each(function(_, val)
     local desc = val[1]
     local lhs = core.lib.keymaps.fmt(val[2])
     table.insert(dashboard, addSpacing_toBtns(desc, lhs) .. ' ')
     table.insert(dashboard, header[1] .. ' ')
-  end
+  end)
 
   local result = {}
 
@@ -127,10 +127,10 @@ function model:view()
   self:send 'update_keybind_linenr'
 
   -- set ascii
-  for _, val in ipairs(dashboard) do
+  vim.iter(ipairs(dashboard)):each(function(_, val)
     result[headerStart_Index] = addPadding_toHeader(val)
     headerStart_Index = headerStart_Index + 1
-  end
+  end)
   self.data.header_start_index = headerStart_Index
 
   local horiz_pad_index = math.floor(
@@ -167,10 +167,10 @@ function model:update(msg)
       local first_btn_line = self.data.abc + #self.data.header + 2
       local keybind_lineNrs = {}
 
-      for _, _ in ipairs(self.data.buttons) do
+      vim.iter(ipairs(self.data.buttons)):each(function(_)
         table.insert(keybind_lineNrs, first_btn_line - 2)
         first_btn_line = first_btn_line + 2
-      end
+      end)
 
       self.data.keybind_linenr = keybind_lineNrs
     end,

@@ -18,10 +18,10 @@ return {
 
         local result = {}
 
-        for i, lhs in ipairs(buttons) do
+        vim.iter(ipairs(buttons)):each(function(i, lhs)
           local map = require 'keymaps.data'.get_mapping({ lhs = lhs }) or { desc = '', lhs = '', rhs = print }
           result[i] = { map.desc, map.lhs, map.rhs }
-        end
+        end)
 
         local map = require 'keymaps.data'.get_mapping({ desc = 'show cheatsheet' }) or { desc = '', lhs = '', rhs = print }
         result[#result + 1] = { map.desc, map.lhs, map.rhs }

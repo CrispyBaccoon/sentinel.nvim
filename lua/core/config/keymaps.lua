@@ -20,14 +20,14 @@ return {
 
     if not opts.special_keys then
       opts.special_keys = {}
-      for m, k in pairs(key_labels) do
+      vim.iter(pairs(key_labels)):each(function(m, k)
         opts.special_keys[k] = m
         repl_keys[string.lower(m)] = k
-      end
+      end)
     else
-      for m, k in pairs(opts.special_keys) do
+      vim.iter(pairs(opts.special_keys)):each(function(m, k)
         repl_keys[string.lower(k)] = m
-      end
+      end)
     end
     require 'keymaps'.setup {
       default_opts = opts.defaults,
@@ -42,9 +42,9 @@ return {
     keymaps_config.repl_keys['<[s]%-([%w])>'] = 'SHIFT+%1'
 
     -- load keymaps plugin
-    for group, mappings in pairs(opts.mappings) do
+    vim.iter(pairs(opts.mappings)):each(function(group, mappings)
       Keymap.group { group = group, mappings }
-    end
+    end)
 
     if core.lib.options:get('ui', 'terminal', 'enabled') then
       require('core.ui.term').setup_keymaps(

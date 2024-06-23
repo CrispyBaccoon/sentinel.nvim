@@ -34,9 +34,9 @@ return {
       normal = {},
     }
     local save = vim.tbl_keys(_G.saved_highlights.transparent)
-    for _, name in ipairs(save) do
+    vim.iter(ipairs(save)):each(function(_, name)
       _G.saved_highlights.normal[name] = core.lib.hl.get_hl { name = name }
-    end
+    end)
     return _G.saved_highlights.transparent
   end,
   ---@param mode boolean

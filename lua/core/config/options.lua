@@ -136,11 +136,11 @@ function M.setup(opts)
   vim.opt.splitright = true
   vim.opt.splitbelow = true
 
-  for _, option in ipairs { 'menu', 'menuone', 'noselect', 'preview' } do
+  vim.iter(ipairs { 'menu', 'menuone', 'noselect', 'preview' }):each(function(_, option)
     if not vim.tbl_contains(vim.opt.completeopt, option) then
       vim.opt.completeopt:append(option)
     end
-  end
+  end)
 
   -- by default unload all vim plugins
   local loaded_plugins = {
@@ -152,13 +152,13 @@ function M.setup(opts)
     'tutor_mode_plugin',
     'matchit',
   }
-  for _, k in ipairs(loaded_plugins) do
+  vim.iter(ipairs(loaded_plugins)):each(function(_, k)
     if opts.load_plugins and opts.load_plugins[k] then
       vim.g['loaded_' .. k] = 0
     else
       vim.g['loaded_' .. k] = 1
     end
-  end
+  end)
 end
 
 return M

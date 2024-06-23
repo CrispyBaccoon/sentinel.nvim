@@ -9,9 +9,9 @@ setmetatable(Spec, {
   __call = function(t, props)
     if type(props) ~= 'table' then return end
     local spec = props
-    for k, v in pairs(t.defaults) do
+    vim.iter(pairs(t.defaults)):each(function(k, v)
       spec[k] = v
-    end
+    end)
     return spec
   end
 })

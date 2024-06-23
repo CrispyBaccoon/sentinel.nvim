@@ -11,12 +11,10 @@ end
 ---@class core.types.lib.math
 ---@field components_to_hex fun(props: Array<integer>): integer
 function core.lib.math.components_to_hex(props)
-  local n = 0
-  for i, v in ipairs(props) do
+  return vim.iter(ipairs(props)):fold(0, function(n, i, v)
     local m = #props - i
-    n = n + ((256 ^ m) * v)
-  end
-  return n
+    return n + ((256 ^ m) * v)
+  end)
 end
 
 ---@class core.types.lib.math
@@ -51,9 +49,8 @@ end
 ---@class core.types.lib.math
 ---@field avg fun(props: integer[]): integer
 function core.lib.math.avg(props)
-  local sum = 0
-  for _, v in ipairs(props) do
-    sum = sum + v
-  end
+  local sum = vim.iter(ipairs(props)):fold(0, function(sum, _, v)
+    return sum + v
+  end)
   return sum / #props
 end

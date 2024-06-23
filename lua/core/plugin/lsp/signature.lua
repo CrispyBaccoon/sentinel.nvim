@@ -89,13 +89,13 @@ H.signature_window_lines = function()
   -- client. Each highlight range is a table which indicates (if not empty)
   -- what parameter to highlight for every LSP client's signature string.
   local lines, hl_ranges = {}, {}
-  for _, t in pairs(signature_data) do
+  vim.iter(pairs(signature_data)):each(function(_, t)
     -- `t` is allowed to be an empty table (in which case nothing is added) or
     -- a table with two entries. This ensures that `hl_range`'s integer index
     -- points to an actual line in future buffer.
     table.insert(lines, t.label)
     table.insert(hl_ranges, t.hl_range)
-  end
+  end)
 
   return lines, hl_ranges
 end
@@ -158,9 +158,9 @@ H.process_lsp_response = function(request_result, processor)
   if not request_result then return {} end
 
   local res = {}
-  for client_id, item in pairs(request_result) do
+  vim.iter(pairs(request_result)):each(function(client_id, item)
     if not item.err and item.result then vim.list_extend(res, processor(item.result, client_id) or {}) end
-  end
+  end)
 
   return res
 end
@@ -240,9 +240,9 @@ H.floating_dimensions = function(lines, max_height, max_width)
   -- This is not 100% accurate (mostly when multibyte characters are present
   -- manifesting into empty space at bottom), but does the job
   local lines_wrap = {}
-  for _, l in pairs(lines) do
+  vim.iter(pairs(lines)):each(function(_, l)
     vim.list_extend(lines_wrap, H.wrap_line(l, max_width))
-  end
+  end)
   -- Height is a number of wrapped lines truncated to maximum height
   local height = math.min(#lines_wrap, max_height)
 
@@ -250,11 +250,11 @@ H.floating_dimensions = function(lines, max_height, max_width)
   -- maximum width
   local width = 0
   local l_width
-  for i, l in ipairs(lines_wrap) do
+  vim.iter(ipairs(lines_wrap)):each(function(i, l)
     -- Use `strdisplaywidth()` to account for 'non-UTF8' characters
     l_width = vim.fn.strdisplaywidth(l)
     if i <= height and width < l_width then width = l_width end
-  end
+  end)
   -- It should already be less that that because of wrapping, so this is "just
   -- in case"
   width = math.min(width, max_width)
@@ -371,7 +371,7 @@ function M.show_signature_window()
   vim.lsp.util.stylize_markdown(H.signature.bufnr, lines, { wrap_at = core.modules.core.lsp.opts.signature.window.width })
 
   -- Add highlighting of active parameter
-  for i, hl_range in ipairs(hl_ranges) do
+  vim.iter(ipairs(hl_ranges)):each(function(i, hl_range)
     if not vim.tbl_isempty(hl_range) and hl_range.first and hl_range.last then
       vim.api.nvim_buf_add_highlight(
         H.signature.bufnr,
@@ -382,7 +382,7 @@ function M.show_signature_window()
         hl_range.last
       )
     end
-  end
+  end)
 
   -- If window is already opened and displays the same text, don't reopen it
   local cur_text = table.concat(lines, '\n')

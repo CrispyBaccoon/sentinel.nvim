@@ -37,13 +37,13 @@ return {
       ---@type AutoCmdCallback
       callback = function(opts)
         -- loop over priorities of current event
-        for priority_i, priority_t in pairs(core.handle[ev]) do
+        vim.iter(pairs(core.handle[ev])):each(function(priority_i, priority_t)
           Util.log('autocmds.callback', string.format('autocmds:%s:%d', ev, priority_i))
           -- loop over handles of current priority
-          for _, handle in ipairs(priority_t) do
+          vim.iter(ipairs(priority_t)):each(function(_, handle)
             handle.fn(opts)
-          end
-        end
+          end)
+        end)
       end,
     })
   end,

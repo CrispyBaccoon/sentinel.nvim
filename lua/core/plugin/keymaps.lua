@@ -11,18 +11,17 @@ _G.Keymap.group = _G.Keymap.group or function(props)
   if #props > 1 then
     mappings = props
   end
-  for _, map in ipairs(mappings) do
+  vim.iter(ipairs(mappings)):each(function(_, map)
     if #map < 4 then
       Util.log('globals.keymap', '`Keymap.group` requires 4 paramaters per keymap', 'warn')
-      goto continue
+      return
     end
     local mode = map[1]
     local lhs = map[2]
     local rhs = map[3]
     local desc = map[4]
     keymaps[mode][lhs] = { rhs, desc, group = props.group }
-    ::continue::
-  end
+  end)
 end
 
 ---@param map string
@@ -41,9 +40,9 @@ local function lhs_fmt(map)
       if _map[i] == '>' then
         temp = string.sub(map, sp_open, i)
         temp = string.lower(temp)
-        for pattern, rpl in pairs(keymaps_config.repl_keys) do
+        vim.iter(pairs(keymaps_config.repl_keys)):each(function(pattern, rpl)
           temp = string.gsub(temp, pattern, rpl)
-        end
+        end)
         sp_open = 0
       end
     else

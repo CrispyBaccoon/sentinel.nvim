@@ -20,10 +20,10 @@ return {
       opts.ensure_installed = { opts.ensure_installed }
     end
     if type(opts.ensure_installed) == 'table' then
-      for _, v in ipairs(ensure) do
+      vim.iter(ipairs(ensure)):each(function(_, v)
         ---@diagnostic disable-next-line: assign-type-mismatch
         opts.ensure_installed[#opts.ensure_installed + 1] = v
-      end
+      end)
     end
     opts.config.ensure_installed = opts.ensure_installed
     require('nvim-treesitter.configs').setup(opts.config)
