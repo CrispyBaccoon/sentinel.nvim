@@ -1,3 +1,9 @@
+---@mod core
+
+if vim.fn.has("nvim-0.10.0") ~= 1 then
+    error("chaivim requires Neovim >= 0.10.0")
+end
+
 require 'core.load'
 
 local Util = require 'core.utils'
