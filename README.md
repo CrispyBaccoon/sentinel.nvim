@@ -46,7 +46,7 @@ curl -fsSL https://github.com/comfysage/chaivim/raw/mega/utils/installer/install
 
 ```lua
 -- init.lua
-local rootpath = vim.fn.stdpath("data") .. "/core"
+local rootpath = vim.fn.stdpath("data") .. "/ch"
 local chaipath = rootpath .. "/chai"
 
 if not vim.uv.fs_stat(chaipath) then
@@ -66,7 +66,7 @@ vim.opt.rtp:prepend(chaipath)
 
 ```lua
 -- init.lua
-require 'core'.setup('custom.config', 'custom.modules')
+require 'ch'.setup('custom.config', 'custom.modules')
 
 -- lua/custom/config.lua
 return {
@@ -78,7 +78,7 @@ return {
 
 -- lua/custom/modules.lua
 return {
-    core = {
+    ch = {
         {
             'options',
             opts = {
@@ -99,10 +99,10 @@ return {
     },
 }
 ```
-or call `require 'core'.setup 'custom'` to load a custom configuration from `lua/custom/init.lua`:
+or call `require 'ch'.setup 'custom'` to load a custom configuration from `lua/custom/init.lua`:
 ```lua
 -- init.lua
-require 'core'.setup 'custom'
+require 'ch'.setup 'custom'
 
 -- lua/custom/init.lua
 return {
@@ -110,7 +110,7 @@ return {
         colorscheme = 'evergarden',
     },
     modules = {
-        core = {
+        ch = {
             { 'options' },
             { 'base' },
         },
@@ -120,7 +120,7 @@ return {
 
 all config fields can be overwritten after `setup()`:
 ```lua
-core.config.ui.colorscheme = 'tokyonight'
+ch.config.ui.colorscheme = 'tokyonight'
 ```
 
 ## :gear: config modules

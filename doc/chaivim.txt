@@ -43,7 +43,7 @@ chaivim configuration is usually split into `custom.config` and
     
     -- lua/custom/modules.lua
     return {
-        core = {
+        ch = {
             {
                 'options',
                 opts = {
@@ -70,16 +70,16 @@ chaivim configuration is usually split into `custom.config` and
 3. configuration                                       *chaivim-configuration*
 
 
-                                                       *chaivim-core-config*
+                                                       *chaivim-ch-config*
 
 
-core-config                            core configuration
+ch-config                            ch configuration
 
 
-                                                    *chaivim-core-config-ui*
+                                                    *chaivim-ch-config-ui*
 
 
-core-config-ui                         ui configuration
+ch-config-ui                         ui configuration
 
 
 
@@ -125,10 +125,10 @@ core-config-ui                         ui configuration
 <
 
 
-                                             *chaivim-core-config-log_level*
+                                             *chaivim-ch-config-log_level*
 
 
-core-config-log_level                  Minimum log level
+ch-config-log_level                  Minimum log level
 
 
 
@@ -147,7 +147,7 @@ module-spec                            specification for a module
                                             *chaivim-modules.highlights.fix*
 
 
-modules.highlights.fix                 specification for core highlight module
+modules.highlights.fix                 specification for ch highlight module
 
 
 
