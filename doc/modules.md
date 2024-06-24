@@ -29,7 +29,7 @@
   'base16',
   event = 'UIEnter',
   opts = {
-    -- you can try out different colorschemes with `require 'core.plugin.base16'.select()`
+    -- you can try out different colorschemes with `require 'ch.plugin.base16'.select()`
     colorscheme = 'nord',
   },
 }
@@ -107,7 +107,7 @@
       [[    ▝▀▀▀▀▀▀▀▀▀  ]],
     },
     buttons = {
-      { 'find files', 'SPC SPC', function() require 'core.plugin.telescope'.picker.find_files {} end },
+      { 'find files', 'SPC SPC', function() require 'ch.plugin.telescope'.picker.find_files {} end },
     },
   },
 }
@@ -316,7 +316,7 @@
       copy_paste = { { "normal", "<c-v>", '"+p', "paste from system clipboard" }, { "visual", "<c-c>", '"+y', "copy to system clipboard" } },
       indent = { { "visual", "<", "<gv", "decrease indention" }, { "visual", ">", ">gv", "increase indention" } },
       qf_list = { { "normal", "<c-n>", ":cnext<cr>", "goto next item in qf list" }, { "normal", "<c-b>", ":cprev<cr>", "goto prev item in qf list" }, { "normal", "<leader>q", <function 1>, "load qf list items" }, { "normal", "<leader>sq", <function 2>, "open qf list" } },
-      show_ui = { { "normal", "<leader>sc", <function 3>, "show cheatsheet" }, { "normal", "<leader>sh", <function 4>, "show core status" }, { "normal", "<leader>sll", <function 5>, "show lazy" } },
+      show_ui = { { "normal", "<leader>sc", <function 3>, "show cheatsheet" }, { "normal", "<leader>sh", <function 4>, "show ch status" }, { "normal", "<leader>sll", <function 5>, "show lazy" } },
       tabs = { { "normal", "<space><tab>]", <function 6>, "next tab" }, { "normal", "<space><tab>[", <function 7>, "prev tab" }, { "normal", "<space><tab>n", ":$tabedit<CR>", "open new tab" }, { "normal", "<space><tab>d", ":tabclose<CR>", "close current tab" }, { "normal", "<space><tab>x", ":tabclose<CR>", "close current tab" }, { "normal", "<space><tab><", <function 8>, "move tab to the left" }, { "normal", "<space><tab>>", <function 9>, "move tab to the right" } },
       toggle_ui = { { "normal", ",tb", <function 10>, "toggle transparent background" } },
       windows = { { "normal", "<C-\\>", ":vs<CR>:wincmd l<CR>", "split file vertically" } }

@@ -27,7 +27,7 @@ return {
 
 -- lua/custom/modules.lua
 return {
-    core = {
+    ch = {
         {
             'options',
             opts = {
@@ -51,10 +51,10 @@ return {
 
 # configuration
 
-core-config
-: core configuration
+ch-config
+: ch configuration
 
-core-config-ui
+ch-config-ui
 : ui configuration
 
 ```lua
@@ -98,7 +98,7 @@ core-config-ui
 }
 ```
 
-core-config-log_level
+ch-config-log_level
 : Minimum log level
 
 Set to `vim.log.levels.OFF` to disable logging from `chai`, or `vim.log.levels.TRACE`
@@ -110,6 +110,6 @@ module-spec
 : specification for a module
 
 modules.highlights.fix
-: specification for core highlight module
+: specification for ch highlight module
 
 Type: `function` (default: `nil`)
