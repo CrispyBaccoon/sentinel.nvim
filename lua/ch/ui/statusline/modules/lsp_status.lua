@@ -21,7 +21,7 @@ return function()
     client = lsp[1]
   end
   if client then
-    local str = '%#St_LspStatus#'
+    local str = ''
     if vim.o.columns > 100 then
       str = str .. ch.lib.fmt.space('') .. 'lsp' .. ch.lib.fmt.space(ch.lib.icons.ui.item_prefix) .. client .. ' '
     else
