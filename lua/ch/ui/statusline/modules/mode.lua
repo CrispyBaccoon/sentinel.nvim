@@ -7,5 +7,5 @@ return function()
 
   local m = utils.getmode()
 
-  return m.label
+  return ' ' ..  m.label
 end
