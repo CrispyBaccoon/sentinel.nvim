@@ -83,9 +83,9 @@ M.parse = function()
       .. m.sep_hl('b')
       .. sep.r
   modules[#modules + 1] = m.hl('c') .. table.concat(_modules.c)
-  modules[#modules + 1] = '%#St_normal#' .. sep.mid
-  modules[#modules + 1] = m.hl('m') .. table.concat(_modules.m)
-  modules[#modules + 1] = '%#St_normal#' .. sep.mid
+  modules[#modules + 1] = sep.mid
+  modules[#modules + 1] = table.concat(_modules.m)
+  modules[#modules + 1] = sep.mid
   modules[#modules + 1] = m.hl('x') .. table.concat(_modules.x)
   modules[#modules + 1] = m.sep_hl('y')
       .. sep.l
