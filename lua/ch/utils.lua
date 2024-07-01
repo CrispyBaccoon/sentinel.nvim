@@ -19,10 +19,4 @@ function Util.log(source, msg, level)
   end
 end
 
----@param name string
-function Util.has(name)
-  local value = vim.fn.has(name)
-  return value == 1
-end
-
 return Util

@@ -178,8 +178,8 @@ function parts.load_lib(_)
 end
 
 function parts.platform(_)
-  local is_mac = Util.has 'mac'
-  local is_win = Util.has 'win32'
+  local is_mac = vim.fn.has 'mac' == 1
+  local is_win = vim.fn.has 'win32' == 1
   local is_neovide = vim.g.neovide
 
   if is_mac then
