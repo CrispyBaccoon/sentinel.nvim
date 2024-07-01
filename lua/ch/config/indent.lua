@@ -1,5 +1,3 @@
-local Util = require 'ch.utils'
-
 return {
   apply_hl = function()
     local highlight = ch.lib.options:get('indent', 'config', 'indent', 'highlight')
@@ -11,7 +9,7 @@ return {
     end
   end,
   setup = function(opts)
-    Util.log('indent.setup', 'loading indent.')
+    ch.log('indent.setup', 'loading indent.')
     require('ch.plugins').load 'indent'
 
     local ok, ibl = SR_L 'ibl'

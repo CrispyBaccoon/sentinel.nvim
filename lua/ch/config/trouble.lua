@@ -1,8 +1,6 @@
-local Util = require 'ch.utils'
-
 return {
   setup = function(opts)
-    Util.log('trouble.setup', 'loading trouble.')
+    ch.log('trouble.setup', 'loading trouble.')
     require('ch.plugins').load 'trouble'
 
     local ok, trouble = SR_L 'trouble'

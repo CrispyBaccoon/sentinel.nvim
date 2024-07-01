@@ -1,8 +1,6 @@
-local Util = require 'ch.utils'
-
 return {
   setup = function(opts)
-    Util.log('whichkey.setup', 'loading whichkey.')
+    ch.log('whichkey.setup', 'loading whichkey.')
     require('ch.plugins').load 'whichkey'
 
     local ok, which = SR_L 'which-key'

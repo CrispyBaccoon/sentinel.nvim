@@ -1,5 +1,3 @@
-local Util = require 'ch.utils'
-
 ---@alias fmt_f fun(str: string): string
 ---@alias wrapper_f fun(): string
 ---@alias separator { left: string, right: string }|string
@@ -61,7 +59,7 @@ local styles = {
 return {
   ---@param opts chLualineOpts
   setup = function(opts)
-    Util.log('lualine.setup', 'loading lualine.')
+    ch.log('lualine.setup', 'loading lualine.')
     require 'ch.plugins'.load 'lualine'
 
     local ok, lualine = SR_L 'lualine'

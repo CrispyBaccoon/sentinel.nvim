@@ -1,8 +1,6 @@
-local Util = require 'ch.utils'
-
 return {
   setup = function(opts)
-    Util.log('null.setup', 'loading null-ls.')
+    ch.log('null.setup', 'loading null-ls.')
     require('ch.plugins').load 'null'
 
     local ok, null_ls = SR_L 'null-ls'

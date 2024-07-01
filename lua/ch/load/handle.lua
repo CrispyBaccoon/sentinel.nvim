@@ -1,5 +1,3 @@
-local Util = require 'ch.utils'
-
 ---@class ch.types.global
 ---@field handle ch.types.global.handle
 ---@alias ch.types.global.handle table<string, ch.types.handle[][]>
@@ -38,7 +36,7 @@ return {
       callback = function(opts)
         -- loop over priorities of current event
         vim.iter(pairs(ch.handle[ev])):each(function(priority_i, priority_t)
-          Util.log('autocmds.callback', string.format('autocmds:%s:%d', ev, priority_i))
+          ch.log('autocmds.callback', string.format('autocmds:%s:%d', ev, priority_i))
           -- loop over handles of current priority
           vim.iter(ipairs(priority_t)):each(function(_, handle)
             handle.fn(opts)
@@ -50,11 +48,11 @@ return {
   --- ```lua
   --- handle.create {
   ---   event = 'ColorScheme', priority = 0,
-  ---   fn = function() Util.log 'hi' end,
+  ---   fn = function() ch.log 'hi' end,
   --- }
   --- handle.create {
   ---   event = 'custom', type = 'event', priority = 0,
-  ---   fn = function() Util.log 'hi' end,
+  ---   fn = function() ch.log 'hi' end,
   --- }
   --- ```
   ---@param props ch.types.handle
@@ -84,7 +82,7 @@ return {
   end,
   --- trigger a custom event
   start = function(ev)
-    Util.log('autocmds.setup', string.format('start:custom:%s', ev))
+    ch.log('autocmds.setup', string.format('start:custom:%s', ev))
     vim.api.nvim_exec_autocmds('User', { pattern = ev })
   end,
 }

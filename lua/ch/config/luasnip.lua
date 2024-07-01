@@ -1,8 +1,6 @@
-local Util = require 'ch.utils'
-
 return {
   setup = function(opts)
-    Util.log('luasnip.setup', 'loading luasnip.')
+    ch.log('luasnip.setup', 'loading luasnip.')
     require 'ch.plugins'.load 'luasnip'
 
     local ok, _ = SR_L 'luasnip'

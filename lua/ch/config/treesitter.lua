@@ -1,10 +1,8 @@
-local Util = require 'ch.utils'
-
 local ensure = { 'markdown', 'markdown_inline', 'vimdoc' }
 
 return {
   setup = function(opts)
-    Util.log('treesitter.setup', 'loading treesitter.')
+    ch.log('treesitter.setup', 'loading treesitter.')
     require('ch.plugins').load 'treesitter'
 
     local ok, treesitter = SR_L 'nvim-treesitter'

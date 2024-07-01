@@ -1,5 +1,3 @@
-local Util = require 'ch.utils'
-
 return {
   ---@param theme ch.types.lib.hl.table
   ---@param config table
@@ -52,11 +50,11 @@ return {
     return hl_groups
   end,
   apply = function()
-    Util.log('ch.ui', 'applying theme')
+    ch.log('ch.ui', 'applying theme')
     local theme = ch.lib.hl.__value
     local config = ch.config.ui.theme_config
     local hl_groups = require('ch.ui.theme').create(theme, config)
-    Util.log('ch.ui', ('applying "%s" hl groups'):format 'main')
+    ch.log('ch.ui', ('applying "%s" hl groups'):format 'main')
     hl_groups = vim.iter(hl_groups):map(function(v)
       v.default = true
       return v

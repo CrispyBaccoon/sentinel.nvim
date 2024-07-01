@@ -1,5 +1,3 @@
-local Util = require 'ch.utils'
-
 local opts_table = {
   bottom = {
     notification = {
@@ -25,7 +23,7 @@ local opts_table = {
 
 return {
   setup = function(opts)
-    Util.log('fidget.setup', 'loading fidget.')
+    ch.log('fidget.setup', 'loading fidget.')
     require('ch.plugins').load 'fidget'
 
     local ok, fidget = SR_L 'fidget'

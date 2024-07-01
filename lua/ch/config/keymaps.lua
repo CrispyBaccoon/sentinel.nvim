@@ -1,5 +1,3 @@
-local Util = require 'ch.utils'
-
 return {
   setup = function(opts)
     local _leader = opts.leader
@@ -9,8 +7,8 @@ return {
 
     local _localleader = _leader .. opts.localleader
 
-    Util.log('keymaps.setup', string.format('set leader to "%s"', _leader))
-    Util.log('keymaps.setup', string.format('set localleader to "%s"', _localleader))
+    ch.log('keymaps.setup', string.format('set leader to "%s"', _leader))
+    ch.log('keymaps.setup', string.format('set localleader to "%s"', _localleader))
     vim.g.mapleader = _leader
     vim.g.maplocalleader = _localleader
 

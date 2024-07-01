@@ -1,5 +1,3 @@
-local Util = require 'ch.utils'
-
 local default_modules = {
   ch = {
     init = {

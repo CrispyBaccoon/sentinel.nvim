@@ -1,4 +1,3 @@
-local Util = require 'ch.utils'
 local Plugins = require 'ch.plugins'
 
 local parts = {}
@@ -23,12 +22,12 @@ end
 
 function parts.load_config(_)
   if not ch.config.modules['ch'] then
-    Util.log('ch.parts', 'ch modules are not defined.', 'error')
+    ch.log('ch.parts', 'ch modules are not defined.', 'error')
     return
   end
 
   vim.iter(pairs(ch.config.modules)):each(function(main_mod, modules)
-    Util.log('ch.parts', 'loading ' .. main_mod .. ' modules.')
+    ch.log('ch.parts', 'loading ' .. main_mod .. ' modules.')
     ch.modules[main_mod] = ch.modules[main_mod] or {}
 
     vim.iter(pairs(modules)):each(function(_, spec)
@@ -72,11 +71,11 @@ end
 ---@param spec ch.types.module.spec
 function parts.load(module, spec)
   if spec.enabled == false then
-    Util.log('ch.parts', 'skipping loading module: ' .. module)
+    ch.log('ch.parts', 'skipping loading module: ' .. module)
     return
   end
   if spec.loaded and spec.reload == false then
-    Util.log('ch.parts', 'skipping reloading module: ' .. module)
+    ch.log('ch.parts', 'skipping reloading module: ' .. module)
     return
   end
 
@@ -85,7 +84,7 @@ function parts.load(module, spec)
   local callback = function(source, opts)
     local status, result = pcall(require, source)
     if not status then
-      Util.log('ch.parts', "failed to load " .. source .. "\n\t" .. result, 'error')
+      ch.log('ch.parts', "failed to load " .. source .. "\n\t" .. result, 'error')
       return
     end
     if type(result) == 'table' then
@@ -118,7 +117,7 @@ function parts.colorscheme(_)
   end
   local ok, result = pcall(vim.cmd.colorscheme, ch.config.ui.colorscheme)
   if not ok then
-    Util.log('ch.parts', "couldn't load colorscheme\n\t"..result, 'error')
+    ch.log('ch.parts', "couldn't load colorscheme\n\t"..result, 'error')
   end
 
   vim.api.nvim_create_autocmd({ 'UIEnter' }, {
@@ -141,7 +140,7 @@ function parts.load_inputs(_)
   if type(inputs) == 'string' then
     local result, _inputs = pcall(require, inputs)
     if not result then
-      Util.log('parts.load_inputs', ('could not load inputs [%s]:\n\t%s'):format(_inputs, result), 'error')
+      ch.log('parts.load_inputs', ('could not load inputs [%s]:\n\t%s'):format(_inputs, result), 'error')
       return
     end
     inputs = _inputs
@@ -168,7 +167,7 @@ function parts.preload(_)
   require 'ch.plugins'.load 'evergarden'
 
   if not keymaps then
-    Util.log('ch.parts', 'global keymaps is not defined.', 'error')
+    ch.log('ch.parts', 'global keymaps is not defined.', 'error')
     return
   end
 end

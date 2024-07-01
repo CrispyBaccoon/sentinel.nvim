@@ -1,5 +1,3 @@
-local Util = require 'ch.utils'
-
 local Plugins = {}
 
 -- adapted from @lazy.nvim https://github.com/folke/lazy.nvim/blob/bc620783663ab09d16bff9fdecc07da65b2a1528/lua/lazy/ch/plugin.lua#L48
@@ -20,7 +18,7 @@ end
 
 ---@param path string
 function Plugins.add_to_path(path)
-  Util.log('ch.plugins', ('add "%s" to path'):format(path))
+  ch.log('ch.plugins', ('add "%s" to path'):format(path))
   ---@diagnostic disable-next-line: undefined-field
   vim.opt.rtp:prepend(path)
 end
@@ -37,17 +35,17 @@ function Plugins.install(spec)
     modulepath,
   }, {}):wait()
   if obj.code > 0 then
-    Util.log('ch.plugins', 'error while cloning ' .. spec.name .. ' at ' .. modulepath ..
+    ch.log('ch.plugins', 'error while cloning ' .. spec.name .. ' at ' .. modulepath ..
       '\n\t' .. obj.stdout .. '\n\t' .. obj.stderr, 'error')
     return
   end
-  Util.log('ch.plugins', 'succesfully cloned ' .. spec.name, 'info')
+  ch.log('ch.plugins', 'succesfully cloned ' .. spec.name, 'info')
 end
 
 ---@param spec LazyPluginSpec
 function Plugins.bootstrap(spec)
   if not vim.uv.fs_stat(spec.dir) then
-    Util.log('ch.plugins', ('module %s [%s] not found. bootstrapping...'):format(spec.name, spec.dir), 'warn')
+    ch.log('ch.plugins', ('module %s [%s] not found. bootstrapping...'):format(spec.name, spec.dir), 'warn')
     Plugins.install(spec)
   end
   Plugins.add_to_path(spec.dir)
@@ -58,7 +56,7 @@ function Plugins.load(name)
     return v.name == name
   end)
   if not spec then
-    Util.log('ch.plugins', ('could not find input \'%s\''):format(name))
+    ch.log('ch.plugins', ('could not find input \'%s\''):format(name))
     return
   end
   Plugins.bootstrap(spec)

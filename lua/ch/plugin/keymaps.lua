@@ -1,10 +1,8 @@
-local Util = require 'ch.utils'
-
 _G.Keymap = _G.Keymap or {}
 
 _G.Keymap.group = _G.Keymap.group or function(props)
   if not props.group then
-    Util.log('globals.keymap', '`Keymap.group` requires `group` field', 'warn')
+    ch.log('globals.keymap', '`Keymap.group` requires `group` field', 'warn')
     return
   end
   local mappings = props[1] or {}
@@ -13,7 +11,7 @@ _G.Keymap.group = _G.Keymap.group or function(props)
   end
   vim.iter(ipairs(mappings)):each(function(_, map)
     if #map < 4 then
-      Util.log('globals.keymap', '`Keymap.group` requires 4 paramaters per keymap', 'warn')
+      ch.log('globals.keymap', '`Keymap.group` requires 4 paramaters per keymap', 'warn')
       return
     end
     local mode = map[1]

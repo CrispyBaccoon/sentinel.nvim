@@ -1,5 +1,3 @@
-local Util = require 'ch.utils'
-
 local M = {}
 
 local function use_theme(theme_name)
@@ -45,7 +43,7 @@ local function use_theme(theme_name)
 
   local theme = themes[theme_name]
   if not theme then
-    Util.log('telescope.setup', 'theme with name `' .. theme_name .. '` not found', 'error')
+    ch.log('telescope.setup', 'theme with name `' .. theme_name .. '` not found', 'error')
     return
   end
 

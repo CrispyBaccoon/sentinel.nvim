@@ -1,5 +1,3 @@
-local Util = require 'ch.utils'
-
 return {
   add_sources = function()
     local sources = {

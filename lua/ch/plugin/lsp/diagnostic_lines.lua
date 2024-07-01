@@ -1,7 +1,5 @@
 -- adapted from @lsp_lines.nvim https://git.sr.ht/~whynothugo/lsp_lines.nvim/tree/cf2306dd332e34a3e91075b40bdd4f6db824b2ee
 
-local Util = require 'ch.utils'
-
 local M = {}
 
 ---@alias ch.types.diagnostic_lines.ns 'chai/virtual_lines'
@@ -81,7 +79,7 @@ M.virtual_line_handlers = {
 -- Registers a wrapper-handler to render lsp lines.
 ---@param opts ch.types.diagnostic_lines.opts.virtual_lines
 function M.setup(opts)
-  Util.log('lsp.diagnostic_lines', 'enabling diagnostic lines')
+  ch.log('lsp.diagnostic_lines', 'enabling diagnostic lines')
   -- TODO: On LSP restart (e.g.: diagnostics cleared), errors don't go away.
   vim.api.nvim_create_augroup('LspLines', { clear = true })
 

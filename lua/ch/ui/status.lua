@@ -1,5 +1,3 @@
-local Util = require 'ch.utils'
-
 local api = vim.api
 
 local model = require 'yosu.model'({
@@ -18,13 +16,13 @@ function model:init()
   local json_log_path = ('%s.json'):format(ch.path.log)
   local fh_json = io.open(json_log_path, 'r')
   if not fh_json then
-    Util.log(('could not open log file [%s]'):format(json_log_path), 'error')
+    ch.log(('could not open log file [%s]'):format(json_log_path), 'error')
     return
   end
   local json_content = vim.json.decode(fh_json:read '*a')
   local _items = {}
   if not json_content or not json_content.items then
-    Util.log(
+    ch.log(
       ('could not deserialize log file [%s]'):format(json_log_path),
       'error'
     )

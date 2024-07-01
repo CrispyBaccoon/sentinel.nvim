@@ -1,8 +1,6 @@
-local Util = require 'ch.utils'
-
 return {
   setup = function(opts)
-    Util.log('todo_comments.setup', 'loading todo_comments.')
+    ch.log('todo_comments.setup', 'loading todo_comments.')
     require('ch.plugins').load 'todo_comments'
 
     local ok, tc = SR_L 'todo-comments'

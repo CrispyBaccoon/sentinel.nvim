@@ -1,8 +1,6 @@
-local Util = require 'ch.utils'
-
 return {
   setup = function(opts)
-    Util.log('ui.setup', 'set up ui')
+    ch.log('ui.setup', 'set up ui')
 
     if opts.input.enabled then
       ---@diagnostic disable-next-line: duplicate-set-field

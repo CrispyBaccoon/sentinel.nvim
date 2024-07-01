@@ -1,5 +1,3 @@
-local Util = require 'ch.utils'
-
 ---@alias LspConfig__mappings 'show_lsp_info'|'open_float'|'goto_prev'|'goto_next'|'goto_declaration'|'goto_definition'|'peek_definition'|'hover'|'goto_implementation'|'show_signature'|'show_type_definition'|'rename'|'show_code_action'|'goto_references'|'format'
 ---@alias LspConfig__servers { [string]: { settings: table, [string]: table } }
 
@@ -53,7 +51,7 @@ local function setup_servers(servers, capabilities)
     end
 
     opts.capabilities = capabilities
-    Util.log('lsp.setup', string.format('setup_lsp:%s', name))
+    ch.log('lsp.setup', string.format('setup_lsp:%s', name))
     nvim_lsp[name].setup(opts)
   end)
 end
@@ -89,7 +87,7 @@ return {
     require('ch.plugins').load_plugins({ 'cmp-nvim-lua' })
     capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
-    Util.log('lsp.setup', 'set up lsp servers')
+    ch.log('lsp.setup', 'set up lsp servers')
     setup_servers(opts.servers, capabilities)
 
     -- Use LspAttach autocommand to only map the following keys
@@ -97,7 +95,7 @@ return {
     vim.api.nvim_create_autocmd('LspAttach', {
       group = vim.api.nvim_create_augroup('UserLspConfig', {}),
       callback = function(ev)
-        Util.log('lsp.attach', 'lsp server attached to current buffer', 'info')
+        ch.log('lsp.attach', 'lsp server attached to current buffer', 'info')
 
         -- Enable completion triggered by <c-x><c-o>
         vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'

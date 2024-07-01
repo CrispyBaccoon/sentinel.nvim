@@ -1,5 +1,3 @@
-local Util = require 'ch.utils'
-
 local api = vim.api
 
 local default_props = {
@@ -291,7 +289,7 @@ function Model:show(props)
   end
 
   if not (props and props.noerror) then
-    Util.log('ch.ui.show', 'buffer closed', 'error')
+    ch.log('ch.ui.show', 'buffer closed', 'error')
   end
 
   return false

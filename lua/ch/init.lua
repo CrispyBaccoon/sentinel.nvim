@@ -81,14 +81,13 @@ _G.ch.modules = _G.ch.modules or {}
 require 'ch.load'
 require 'ch.log'
 
-local Util = require 'ch.utils'
 local parts = require 'ch.parts'
 
 ---@param ... any
 function M.setup(...)
   local args = { ... }
   if #args == 0 then
-    Util.log('ch.setup', 'not enough arguments provided', 'error')
+    ch.log('ch.setup', 'not enough arguments provided', 'error')
     return
   end
   local config = args[1]
@@ -96,7 +95,7 @@ function M.setup(...)
   if type(config) == 'string' then
     local status, opts = SR(config)
     if not status or type(opts) ~= 'table' then
-      Util.log('ch.setup', 'config module ' .. config .. ' was not found', 'error')
+      ch.log('ch.setup', 'config module ' .. config .. ' was not found', 'error')
       return
     end
     return M.setup(opts, modules)
@@ -105,7 +104,7 @@ function M.setup(...)
     local import_mod = modules
     local status, result = SR(import_mod)
     if not status or type(result) ~= 'table' then
-      Util.log('ch.setup', 'modules from module ' .. import_mod .. ' were not found', 'error')
+      ch.log('ch.setup', 'modules from module ' .. import_mod .. ' were not found', 'error')
       return
     end
     modules = result
@@ -130,7 +129,7 @@ function M.load()
     return
   end
 
-  Util.log('ch.startup', 'loading config')
+  ch.log('ch.startup', 'loading config')
 
   if vim.loader and vim.fn.has "nvim-0.9.1" == 1 then vim.loader.enable() end
   ch.group_id = vim.api.nvim_create_augroup('ch:' .. CONFIG_MODULE, {})
@@ -150,7 +149,7 @@ function M.load()
 end
 
 function M.reload()
-  Util.log('ch.reload', 'reloading config')
+  ch.log('ch.reload', 'reloading config')
 
   vim.api.nvim_del_augroup_by_id(ch.group_id)
   ch.group_id = vim.api.nvim_create_augroup("config:" .. CONFIG_MODULE, {})
