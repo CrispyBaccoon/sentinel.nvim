@@ -67,10 +67,6 @@ local parts = require 'ch.parts'
 
 local M = {}
 
----@type ch.types.global
----@diagnostic disable: missing-fields
-_G.ch = _G.ch or {}
-
 ---@type ch.config
 _G.ch.config = require 'ch.config'.setup(_G.ch.config or {})
 
