@@ -1,3 +1,31 @@
+---@class ch.types.global
+---@field error fun(err: string): string
+ch.error = function(err)
+  local context = debug.getinfo(2)
+  local level = 2
+  while not context.name or context.name == 'assert' or context.name == 'pcall' do
+    level = level + 1
+    if debug.getinfo(level) then
+      context = debug.getinfo(level)
+    end
+  end
+  ch.log(context.name, err, 'error')
+  return error(err)
+end
+
+---@generic T
+---@param v T
+---@param err string
+---@return T, string
+---@diagnostic disable-next-line: inject-field
+ch.assert = function(v, err)
+  if v then
+    return v, err
+  else
+    return nil, ch.error(err)
+  end
+end
+
 ---@type string
 CR = CR or "~/.config"
 
