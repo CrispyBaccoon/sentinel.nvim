@@ -38,7 +38,7 @@ return {
           },
           window = {
             normal_hl = 'NonText',
-            winblend = 100,
+            winblend = 0,
             align = 'bottom',
           },
         },
