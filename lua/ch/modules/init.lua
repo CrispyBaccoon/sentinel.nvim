@@ -22,7 +22,16 @@ local event_map = {
 
 return {
   get_module = function(main, module)
-    return SR(string.format('ch.modules.%s.%s', main, module))
+    local ok, import = SR(string.format('%s.%s', main == 'ch' and 'ch.config' or main, module))
+    if ok and type(import) == 'table' and import.module then
+      return import.module
+    end
+    ---@diagnostic disable-next-line: redefined-local
+    local ok, import = SR(string.format('ch.modules.%s.%s', main, module))
+    if ok and import then
+      return import
+    end
+    return {}
   end,
   get_defaults = function(main)
     if not default_modules[main] then
@@ -45,11 +54,7 @@ return {
     if not ok then
       return
     end
-    ---@diagnostic disable-next-line redefined-local
-    local ok, import = require 'ch.modules'.get_module(main, module)
-    if not ok then
-      import = {}
-    end
+    local import = require 'ch.modules'.get_module(main, module)
     import = vim.tbl_deep_extend('force', default, import)
 
     ---@type ch.types.module.spec
