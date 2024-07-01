@@ -79,6 +79,7 @@ _G.ch.path.ch = _G.ch.path.root .. "/chai"
 _G.ch.modules = _G.ch.modules or {}
 
 require 'ch.load'
+require 'ch.log'
 
 local Util = require 'ch.utils'
 local parts = require 'ch.parts'

@@ -133,6 +133,12 @@ function Log:write(source, msg, level)
   vim.notify(('[%s] %s'):format(source, msg), log_level)
 end
 
+---@class ch.types.log
+---@field __call fun(self: ch.types.log, source: string, msg: string, level: 'debug'|'info'|'warn'|'error'|nil)
+function Log:__call(...)
+  return self:write(...)
+end
+
 ---@class ch.types.global
 ---@field log ch.types.log
 ---@type ch.types.log
