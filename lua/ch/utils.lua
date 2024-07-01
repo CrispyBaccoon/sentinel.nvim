@@ -25,13 +25,4 @@ function Util.has(name)
   return value == 1
 end
 
-function Util.get_diagnostic_signs()
-  return {
-    [vim.diagnostic.severity.ERROR] = ch.lib.icons.diagnostic.error,
-    [vim.diagnostic.severity.WARN] = ch.lib.icons.diagnostic.warn,
-    [vim.diagnostic.severity.INFO] = ch.lib.icons.diagnostic.info,
-    [vim.diagnostic.severity.HINT] = ch.lib.icons.diagnostic.hint,
-  }
-end
-
 return Util
