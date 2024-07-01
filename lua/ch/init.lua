@@ -4,11 +4,6 @@ if vim.fn.has("nvim-0.10.0") ~= 1 then
     error("chaivim requires Neovim >= 0.10.0")
 end
 
-require 'ch.load'
-
-local Util = require 'ch.utils'
-local parts = require 'ch.parts'
-
 ---@alias ch.types.module.main 'ch'|'config'|'custom'|string
 
 ---@class ch.types.module.spec
@@ -67,6 +62,10 @@ local parts = require 'ch.parts'
 
 local M = {}
 
+---@type ch.types.global
+---@diagnostic disable: missing-fields
+_G.ch = _G.ch or {}
+
 ---@type ch.config
 _G.ch.config = require 'ch.config'.setup(_G.ch.config or {})
 
@@ -78,6 +77,11 @@ _G.ch.path = {
 _G.ch.path.ch = _G.ch.path.root .. "/chai"
 
 _G.ch.modules = _G.ch.modules or {}
+
+require 'ch.load'
+
+local Util = require 'ch.utils'
+local parts = require 'ch.parts'
 
 ---@param ... any
 function M.setup(...)
