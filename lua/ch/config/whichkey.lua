@@ -1,4 +1,14 @@
 return {
+  module = {
+    default = {
+      opts = {
+        config = {
+          -- key labels are imported from ui->key_labels
+          key_labels = nil,
+        },
+      },
+    },
+  },
   setup = function(opts)
     ch.log('whichkey.setup', 'loading whichkey.')
     require('ch.plugins').load 'whichkey'

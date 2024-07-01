@@ -1,4 +1,9 @@
 return {
+  module = {
+    default = {
+      opts = { },
+    },
+  },
   setup = function(opts)
     -- termguicolors
     vim.opt.termguicolors = true

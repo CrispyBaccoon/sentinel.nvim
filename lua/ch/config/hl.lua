@@ -1,4 +1,12 @@
 return {
+  module = {
+    default = {
+      opts = {
+        -- use if your colorscheme lacks some solid defaults
+        use_overrides = false,
+      },
+    },
+  },
   setup = function(opts)
     require('ch.plugin.hl').setup()
 
