@@ -26,11 +26,6 @@ return {
     if ok and type(import) == 'table' and import.module then
       return import.module
     end
-    ---@diagnostic disable-next-line: redefined-local
-    local ok, import = SR(string.format('ch.modules.%s.%s', main, module))
-    if ok and import then
-      return import
-    end
     return {}
   end,
   get_defaults = function(main)
