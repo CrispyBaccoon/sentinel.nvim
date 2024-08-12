@@ -34,6 +34,7 @@ chaivim uses [lazy.nvim](https://github.com/folke/lazy.nvim) to manage plugins.
 - Neovim `>= 0.10.0` (needs to be built with LuaJIT)
 - git `>= 2.19.0` (for partial clones support)
 - a Nerd Font (optional)
+- [luarocks](https://luarocks.org/) to install rockspecs.
 
 ## :package: installation
 
