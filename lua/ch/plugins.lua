@@ -8,6 +8,13 @@ function Plugins.get_name(pkg)
   return slash and name:sub(#name - slash + 2) or pkg:gsub("%W+", "_")
 end
 
+---@type fun(s: string): string
+function Plugins.expand_url(s)
+  local url = s:sub(-4) == '.git' and s or (s .. '.git')
+  local colon = url:find(':', 1, true) --[[@as number?]]
+  return colon and url or ('git@github.com:%s'):format(url)
+end
+
 ---@param plugins string[]
 function Plugins.load_plugins(plugins)
   vim.iter(plugins):each(function(url)
@@ -69,7 +76,7 @@ function Plugins.parse_inputs(props)
     if #v == 0 and not v.url then
       return
     end
-    v.url = v.url or ('https://github.com/%s.git'):format(v[1])
+    v.url = v.url or Plugins.expand_url(v[1])
     if not v.name then
       v.name = Plugins.get_name(v.url)
     end
