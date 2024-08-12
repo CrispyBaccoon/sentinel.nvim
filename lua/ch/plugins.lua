@@ -38,7 +38,7 @@ function Plugins.install(spec)
     "git",
     "clone",
     "--filter=blob:none",
-    "https://github.com/" .. spec.url .. ".git",
+    spec.url,
     modulepath,
   }, {}):wait()
   if obj.code > 0 then
