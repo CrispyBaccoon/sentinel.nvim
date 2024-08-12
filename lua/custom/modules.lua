@@ -1,5 +1,5 @@
 return {
-  core = {
+  ch = {
     {
       'options',
       opts = {
