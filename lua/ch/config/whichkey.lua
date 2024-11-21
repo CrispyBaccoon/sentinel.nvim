@@ -42,7 +42,7 @@ return {
     end
     which.setup(opts.config)
 
-    which.register {
+    which.add {
       { '.', group = 'toggle' },
       { ',', group = 'edit' },
       { '<leader>f', group = 'find' },
