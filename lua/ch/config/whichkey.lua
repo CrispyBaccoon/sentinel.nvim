@@ -25,13 +25,11 @@ return {
     which.setup(opts.config)
 
     which.register {
-      ['.'] = { name = 'toggle' },
-      [','] = { name = 'edit' },
-      ['<leader>'] = {
-        f = { name = 'find' },
-        s = { name = 'show' },
-        g = { name = 'go' },
-      },
+      { '.', group = 'toggle' },
+      { ',', group = 'edit' },
+      { '<leader>f', group = 'find' },
+      { '<leader>s', group = 'show' },
+      { '<leader>g', group = 'go' },
     }
   end,
 }
