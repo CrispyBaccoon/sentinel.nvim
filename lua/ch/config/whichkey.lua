@@ -3,8 +3,20 @@ return {
     default = {
       opts = {
         config = {
-          -- key labels are imported from ui->key_labels
-          key_labels = nil,
+          replace = {
+            -- key labels are imported from ui->key_labels
+            key = nil,
+            desc = {
+              { "<Plug>%(?(.*)%)?", "%1" },
+              { "^%+", "" },
+              { "<[cC]md>", "" },
+              { "<[cC][rR]>", "" },
+              { "<[sS]ilent>", "" },
+              { "^lua%s+", "" },
+              { "^call%s+", "" },
+              { "^:%s*", "" },
+            },
+          }
         },
       },
     },
@@ -18,9 +30,15 @@ return {
       return
     end
 
-    if not opts.config.key_labels then
-      opts.config.key_labels =
-        ch.config.ui.key_labels
+    if not opts.config.replace then
+      local default_key_labels = {
+        function(key)
+          return require("which-key.view").format(key)
+        end,
+      }
+      vim.list_extend(default_key_labels, ch.config.ui.key_labels)
+
+      opts.config.replace.key = default_key_labels
     end
     which.setup(opts.config)
 
